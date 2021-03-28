@@ -1,0 +1,43 @@
+.main {
+	margin: auto 0;
+	margin-left: auto;
+	margin-top: 50px;
+	margin-right: 10%;
+	width: 65%;
+	height: 90%;
+	background: #fff;
+	position: relative;
+}
+
+.main__message {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.main__message-area {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 60%;
+	width: 100%;
+
+	border: 5px solid blue;
+}
+
+.main__message-input {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 20%;
+	width: 100%;
+	border: 5px solid green;
+}
+
+.main__message-submit {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}

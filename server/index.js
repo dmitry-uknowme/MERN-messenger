@@ -31,5 +31,17 @@ io.on('connection', (socket) => {
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
-// const Dmitry = new userTable({ name: 'Андрей', surname: 'Чистяков' });
+const Dmitry = new userTable({
+	id: 1,
+	name: 'Дмитрий',
+	surname: 'Богатырев',
+	chats: {
+		type: 'user',
+		id: 2,
+		messages: [
+			{ isMy: true, message: 'Привет' },
+			{ isMy: false, message: 'димасик можешь распечатать' },
+		],
+	},
+});
 // Dmitry.save().then(() => console.log('data uploaded'));

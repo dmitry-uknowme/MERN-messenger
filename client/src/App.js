@@ -6,11 +6,9 @@ import './App.css';
 import Messenger from './components/Messenger/Messenger';
 import Chat from './components/Chat/Chat';
 import Header from './components/Header/Header';
-import Main from './components/Main/Main';
 import Sidebar from './components/Sidebar/Sidebar';
-
+import Login from './components/Login/Login';
 const App = () => {
-	// const connectSocket = () => io('http://127.0.0.1:9000', {});
 	return (
 		<div className='app'>
 			<Router>
@@ -18,6 +16,9 @@ const App = () => {
 				<Switch>
 					<Route path='/chat/:id'>
 						<Chat />
+					</Route>
+					<Route path='/login'>
+						<Login />
 					</Route>
 					<Route path='/'>
 						<Messenger />

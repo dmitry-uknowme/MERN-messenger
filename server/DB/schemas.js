@@ -4,6 +4,7 @@ const userSchema = mongoose.Schema({
 	id: Number,
 	name: String,
 	surname: String,
+	chats: Array,
 });
 
 const userTable = mongoose.model('users', userSchema);

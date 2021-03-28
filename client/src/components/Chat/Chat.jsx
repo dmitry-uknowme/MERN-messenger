@@ -1,9 +1,14 @@
-import React,{useState} from 'react' 
+import React, { useState } from 'react';
+import {useParams} from 'react-router-dom'
 
-import './Chat.css'
+import './Chat.css';
 
-const Chat = ()=>{
-    const [message, setMessage] = useState('');
+const Chat = () => {
+
+	const {id} = useParams()
+	console.log(id) 
+
+	const [message, setMessage] = useState('');
 	const [postedMessages, setPostedMessages] = useState([]);
 
 	const [user, setUser] = useState('Dimon4ik-limon4ik');
@@ -13,8 +18,8 @@ const Chat = ()=>{
 		setPostedMessages((state) => [...state, message]);
 		setMessage('');
 	};
-return(
-    <div className='chat'>
+	return (
+		<div className='chat'>
 			<div className='chat__message'>
 				<div className='chat__message-area'>
 					{postedMessages?.map((message) => (
@@ -30,7 +35,7 @@ return(
 				</button>
 			</div>
 		</div>
-)
-}
+	);
+};
 
-export default Chat
+export default Chat;

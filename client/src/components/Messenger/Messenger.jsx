@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 
-import './Messenger.css';
+import './Messenger.sass';
 
 const Messenger = () => {
 	const [usedUsers, setUsedUsers] = useState([]);
@@ -15,40 +16,23 @@ const Messenger = () => {
 		return userChats[id]['messages'][userChats[id]['messages'].length - 1]['message'];
 	};
 
+	console.log(lastMessage(0));
+
 	const getChatsWithUsers = () => {
 		if (userChats) {
-			// let users = [];
 			userChats.map(async (chat) => {
 				await axios.get(`/users/${chat.id}`).then((response) => {
-					// users.push(response.data);
 					setUsedUsers((state) => [...state, response.data]);
-					// console.log(users);
 				});
 			});
-
-			console.log('salaaaaam', usedUsers);
-
-			// setUsedUsers((state) => [...state, response.data]);
-			// setUsedUsers(users);
-			// console.log('salam', users);
 		}
-
-		// usedUsers.map((user, id) => {
-		// 	console.log('lalal', userChats[id], user.name);
-		// 	userChats[id].name = user.name;
-		// });
-		// console.log('new chats', userChats);
-		// console.log(usedUsers);
 	};
 
 	useEffect(() => {
-		// console.log(isLogged);
 		if (!isLogged) {
 			history.push('/login');
 		}
 		getChatsWithUsers();
-		// console.log(usedUsers);
-		// console.log(usedUsers);
 	}, [isLogged]);
 
 	return (
@@ -67,7 +51,7 @@ const Messenger = () => {
 												</h5>
 
 												{/* <p className='card-text messenger__card-message'>АУЕ! Дарова ебаный рот, я присоединился к этой социальной сети</p> */}
-												{/* <p className='card-text messenger__card-message'>димасик можешь распечатать</p> */}
+
 												<p className='card-text messenger__card-message'>{lastMessage(id)}</p>
 											</div>
 										</div>
@@ -76,6 +60,9 @@ const Messenger = () => {
 							) : (
 								<div>У вас пока нет диалогов</div>
 							)}
+						</div>
+						<div className='col-md-4 offset-md-4 d-flex justify-content-center'>
+							<AddBoxIcon className='messenger__new'></AddBoxIcon>
 						</div>
 					</div>
 				</div>

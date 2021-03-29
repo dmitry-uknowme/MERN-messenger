@@ -1,17 +1,33 @@
+// import express, {Request,Response}  from 'express';
+// const app = express();
+// const server = require('http').Server(app);
+// const io = require('socket.io')(server);
+
+
 import express, {Request,Response}  from 'express';
+import { createServer } from "http";
+import { Server, Socket } from "socket.io"
 const app = express();
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
 import {userTable} from './DB/schemas'
 import connectDB from './DB/connect'
 
-
+const server = createServer(app)
+const io = new Server(server, {});
 
 const port:String|Number = process.env.PORT || 9000;
 
 connectDB()
 
-	app.get('/users', async (req:Request, res:Response) => {
+io.on('connection',(socket:Socket)=>{
+	socket.on('sendMessage',(data:any)=>{
+		console.log(socket)
+	})
+	socket.on('test',(data:any)=>{
+		console.log('socket test',socket.id, data)
+	})
+})
+
+app.get('/users', async (req:Request, res:Response) => {
 	await userTable.find({}, (err:Error, result:JSON) => {
 		if (err) {
 			console.log(err);
@@ -51,8 +67,9 @@ const Dmitry = new userTable({
 			id: 2,
 
 			messages: [
-				{ isMy: true, message: 'Да' },
 				{ isMy: false, message: 'димасик можешь распечатать' },
+				{ isMy: true, message: 'Да' },
+				
 			],
 		},
 		{

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, history, useHistory } from 'react-router-dom';
+import socket from '../../utils/socket';
 
-import './Chat.css';
+import './Chat.sass';
 
 const Chat = () => {
 	const { id } = useParams();
@@ -17,6 +18,9 @@ const Chat = () => {
 
 	const sendMessage = (e) => {
 		e.preventDefault();
+		socket.emit('test', {
+			message,
+		});
 		setChatMessages((state) => [...state, { isMy: true, message }]);
 	};
 	useEffect(() => {
@@ -35,13 +39,23 @@ const Chat = () => {
 			<div className='chat__message'>
 				<div className='chat__message-area'>
 					{chatMessages?.map((messages) => (
-						<>{messages.isMy ? <div key={messages.message}>Вы отправили сообщение {messages.message} </div> : <div key={messages.message}>Вам пришло сообщение {messages.message}</div>}</>
+						<>
+							{messages.isMy ? (
+								<div className='chat__message-item-from' key={messages.message}>
+									{messages.message}
+								</div>
+							) : (
+								<div className='chat__message-item-to' key={messages.message}>
+									{messages.message}
+								</div>
+							)}
+						</>
 					))}
 					<br />
 				</div>
 				<textarea className='chat__message-input' type='text' placeholder='Введите сообщение' onChange={(e) => setMessage(e.target.value)} />
 				<button type='button' className='chat__message-submit' onClick={sendMessage}>
-					Send message
+					Отправить сообщение
 				</button>
 			</div>
 		</div>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import io from 'socket.io-client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -8,21 +9,35 @@ import Chat from './components/Chat/Chat';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import Login from './components/Login/Login';
+
 const App = () => {
+	const isLogged = useSelector((state) => state.user.isLogged);
 	return (
 		<div className='app'>
 			<Router>
 				<Switch>
 					<Route path='/chat/:id'>
-						<Header />
-						<Chat />
+						{!isLogged ? (
+							<Redirect to='/login' />
+						) : (
+							<>
+								<Header />
+								<Chat />
+							</>
+						)}
 					</Route>
 					<Route path='/login'>
 						<Login />
 					</Route>
 					<Route path='/'>
-						<Header />
-						<Messenger />
+						{!isLogged ? (
+							<Redirect to='/login' />
+						) : (
+							<>
+								<Header />
+								<Messenger />
+							</>
+						)}
 					</Route>
 				</Switch>
 			</Router>

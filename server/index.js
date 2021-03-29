@@ -21,6 +21,19 @@ app.get('/users', async (req, res) => {
 	console.log(req.body);
 });
 
+app.get('/users/:id', async (req, res) => {
+	const userId = req.params.id;
+	// console.log(userId);
+	await userTable.findOne({ id: userId }, (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			res.json(result);
+		}
+	});
+	console.log(req.body);
+});
+
 app.get('/messages', (req, res) => {
 	console.log('messages');
 });
@@ -35,13 +48,31 @@ const Dmitry = new userTable({
 	id: 1,
 	name: 'Дмитрий',
 	surname: 'Богатырев',
-	chats: {
-		type: 'user',
-		id: 2,
-		messages: [
-			{ isMy: true, message: 'Привет' },
-			{ isMy: false, message: 'димасик можешь распечатать' },
-		],
-	},
+	chats: [
+		{
+			type: 'user',
+			id: 2,
+
+			messages: [
+				{ isMy: true, message: 'Да' },
+				{ isMy: false, message: 'димасик можешь распечатать' },
+			],
+		},
+		{
+			type: 'user',
+			id: 3,
+
+			messages: [
+				{ isMy: true, message: 'Ну я свой ещё не начинал' },
+				{ isMy: false, message: 'Хуль там делать' },
+			],
+		},
+	],
 });
+
+// const Dmitry = new userTable({
+// 	id: 3,
+// 	name: 'Байдерин',
+// 	surname: 'Никита',
+// });
 // Dmitry.save().then(() => console.log('data uploaded'));

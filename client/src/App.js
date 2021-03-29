@@ -12,15 +12,16 @@ const App = () => {
 	return (
 		<div className='app'>
 			<Router>
-				<Header />
 				<Switch>
 					<Route path='/chat/:id'>
+						<Header />
 						<Chat />
 					</Route>
 					<Route path='/login'>
 						<Login />
 					</Route>
 					<Route path='/'>
+						<Header />
 						<Messenger />
 					</Route>
 				</Switch>

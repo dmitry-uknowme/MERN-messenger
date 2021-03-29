@@ -1,17 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import './Login.sass';
+
+import axios from 'axios';
+import { setIsLogged, setUser } from '../../reducers/userReducer';
 
 const Login = () => {
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const [userInput, setUserInput] = useState('');
+
+	const btnHandler = async () => {
+		await axios.get(`/users/${userInput}`).then((response) => dispatch(setUser(response.data)));
+		dispatch(setIsLogged(true));
+		history.push('/');
+	};
+
 	return (
 		<div className='login'>
-			<div className='container'>
+			<div className='container-fluid'>
 				<div className='row'>
-					<div className='col-xxl-6 offset-xxl-6'>
-						<form>
-							<label for='exampleInputEmail1' className='form-label'>
+					<div className='col-md-4 offset-md-4'>
+						{/* <label htmlFor='exampleInputEmail1' className='form-label'>
 								Введите id пользователя:
-							</label>
-							<input type='email' className='form-control' id='exampleInputEmail1' aria-describedby='emailHelp' />
-						</form>
+							</label> */}
+						<input type='text' className='form-control' value={userInput} onChange={(e) => setUserInput(e.target.value)} />
+
+						<div className='d-flex justify-content-center mt-3'>
+							<button type='submit' className='btn btn-primary' onClick={btnHandler}>
+								Войти
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>

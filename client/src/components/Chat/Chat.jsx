@@ -17,10 +17,8 @@ const Chat = () => {
 
 	const sendMessage = (e) => {
 		e.preventDefault();
-		// setPostedMessages((state) => [...state, message]);
-		// setMessage('');
+		setChatMessages((state) => [...state, { isMy: true, message }]);
 	};
-	console.log(chatMessages);
 	useEffect(() => {
 		if (!isLogged) {
 			history.push('/login');
@@ -30,14 +28,14 @@ const Chat = () => {
 				setChatMessages(chat.messages);
 			}
 		}
-	}, [isLogged, userChats]);
+	}, [isLogged]);
 
 	return (
 		<div className='chat'>
 			<div className='chat__message'>
 				<div className='chat__message-area'>
 					{chatMessages?.map((messages) => (
-						<div key={messages.message}>New message {messages.message} from user</div>
+						<>{messages.isMy ? <div key={messages.message}>Вы отправили сообщение {messages.message} </div> : <div key={messages.message}>Вам пришло сообщение {messages.message}</div>}</>
 					))}
 					<br />
 				</div>

@@ -7,8 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently 'npm:build' 'npm:serve'",
     "build": "webpack -w",
-    "serve": "nodemon ./build/index.js"
+    "serve": "nodemon ./build/index.js --ignore client"
   },
+  
   "author": "",
   "license": "ISC",
   "devDependencies": {

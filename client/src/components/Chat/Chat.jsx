@@ -18,8 +18,10 @@ const Chat = () => {
 
 	const sendMessage = (e) => {
 		e.preventDefault();
-		socket.emit('test', {
-			message,
+		socket.emit('MESSAGE:SEND', {
+			message: { isMy: true, message },
+			userId: userData.id,
+			chatId: parseInt(id),
 		});
 		setChatMessages((state) => [...state, { isMy: true, message }]);
 	};

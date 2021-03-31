@@ -5,6 +5,7 @@ import './Login.sass';
 
 import axios from 'axios';
 import { setIsLogged, setUser } from '../../reducers/userReducer';
+import socket from '../../utils/socket';
 
 const Login = () => {
 	const dispatch = useDispatch();
@@ -14,6 +15,10 @@ const Login = () => {
 	const btnHandler = async () => {
 		await axios.get(`/users/${userInput}`).then((response) => dispatch(setUser(response.data)));
 		dispatch(setIsLogged(true));
+		socket.emit('USER:JOIN', userInput);
+		// socket.on('USER:JOINED', (userId) => {
+		// 	console.log('new user online', userId);
+		// });
 		history.push('/');
 	};
 

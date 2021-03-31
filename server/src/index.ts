@@ -4,6 +4,7 @@ import { Server, Socket } from 'socket.io';
 const app = express();
 import { userTable } from './DB/schemas';
 import connectDB from './DB/connect';
+import { Query } from 'mongoose';
 
 const server = createServer(app);
 const io = new Server(server, {});
@@ -13,11 +14,29 @@ const port: String | Number = process.env.PORT || 9000;
 connectDB();
 
 io.on('connection', (socket: Socket) => {
-	socket.on('sendMessage', (data: any) => {
-		console.log(socket);
+	// console.log('new connection', socket.id);
+	socket.on('MESSAGE:SEND', (data: any) => {
+		// socket.emit('MESSAGE:SEND', data);
+		const { userId, chatId, message } = data;
+		userTable.findOne({ id: userId }, async (err: any, user: any) => {
+			const chats = user.chats;
+			for (const chat of chats) {
+				if (chat.id === chatId) {
+					chat.messages.push(message);
+					user.markModified('chats');
+					user.save((err: any) => {
+						0;
+						if (err) throw Error;
+						console.log(`message ${message} was send to user id ${chatId}`);
+					});
+				}
+			}
+		});
 	});
-	socket.on('test', (data: any) => {
-		console.log('socket test', socket.id, data);
+	socket.on('USER:JOIN', (userId) => {
+		console.log('user joined', userId, socket.id);
+		// console.log(socket.id, userId);
+		// socket.emit('USER:JOINED', userId);
 	});
 });
 
@@ -42,27 +61,6 @@ app.get('/users/:id', async (req: Request, res: Response) => {
 		}
 	});
 	console.log(req.body);
-});
-
-app.post('/users/add_message', async (req: Request, res: Response) => {
-	const { userId, chatId, message } = req.body;
-	// if (err) {
-	// 	console.log(err);
-	// } else {
-	// 	res.json(result);
-	// }
-	// await userTable.findOneAndUpdate({id:userId},{},(err:Error, result:JSON)=> {
-	// 		if(err)
-	// 		{
-	// 			console.log(err)
-	// 		}
-	// 		else {
-	// 			res.json(result);
-	// 		}
-	// });
-	// @ts-expect-error
-	// userTable.findOneAndUpdate({ id: userId }, { $push: { 'chats[chatId].messages': message } });
-	userTable.findOneAndUpdate({ id: 1 }, { $set: { 'chats.0.messages.0': 'new value' } });
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

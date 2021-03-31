@@ -16,8 +16,6 @@ const Messenger = () => {
 		return userChats[id]['messages'][userChats[id]['messages'].length - 1]['message'];
 	};
 
-	console.log(lastMessage(0));
-
 	const getChatsWithUsers = () => {
 		if (userChats) {
 			userChats.map(async (chat) => {

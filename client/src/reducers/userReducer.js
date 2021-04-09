@@ -1,8 +1,8 @@
 const SET_USER = 'SET_USER';
-const SET_IS_LOGGED = 'SET_IS_LOGGED';
+const SET_IS_ONLINE = 'SET_IS_LOGIN';
 
 const defaulState = {
-	isLogged: false,
+	isOnline: false,
 	data: {},
 };
 
@@ -13,10 +13,10 @@ const userReducer = (state = defaulState, action) => {
 				...state,
 				data: action.payload,
 			};
-		case SET_IS_LOGGED: {
+		case SET_IS_ONLINE: {
 			return {
 				...state,
-				isLogged: action.payload,
+				isOnline: action.payload,
 			};
 		}
 		default:
@@ -25,6 +25,6 @@ const userReducer = (state = defaulState, action) => {
 };
 
 export const setUser = (data) => ({ type: SET_USER, payload: data });
-export const setIsLogged = (data) => ({ type: SET_IS_LOGGED, payload: data });
+export const setIsOnline = (data) => ({ type: SET_IS_ONLINE, payload: data });
 
 export default userReducer;

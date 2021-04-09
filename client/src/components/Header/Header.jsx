@@ -10,9 +10,9 @@ import './Header.css';
 import { ReactComponent as Logo } from '../../img/vk.svg';
 
 export const Header = () => {
-	const [audioPlaying, setAudioPlaying] = useState({ playing: true });
-	const [notifications, setNotifications] = useState(Math.random() * (20 - 1 - 0).toFixed(0));
-	console.log(audioPlaying);
+	const [audioPlaying, setAudioPlaying] = useState({ playing: true, artist: 'Audio1', title: 'Audio1' });
+	const [notifications, setNotifications] = useState((Math.random() * (20 - 1 - 0)).toFixed(0));
+	// console.log(audioPlaying);
 	return (
 		<div className='header__container'>
 			<div className='header'>
@@ -52,6 +52,7 @@ export const Header = () => {
 						)}
 					</div>
 				</div>
+				<div className='header__profile'></div>
 			</div>
 		</div>
 	);

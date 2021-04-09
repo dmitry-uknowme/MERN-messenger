@@ -5,15 +5,19 @@ import axios from 'axios';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 
 import './Messenger.sass';
+import socket from '../../utils/socket';
 
 const Messenger = () => {
 	const [usedUsers, setUsedUsers] = useState([]);
-	const history = useHistory();
-	const isLogged = useSelector((state) => state.user.isLogged);
 	const userData = useSelector((state) => state.user.data);
 	const userChats = userData.chats;
 	const lastMessage = (id) => {
 		return userChats[id]['messages'][userChats[id]['messages'].length - 1]['message'];
+	};
+
+	const chatHandler = (chatId) => {
+		// 	socket.emit('USER:JOIN', chatId);
+		console.log('hello');
 	};
 
 	const getChatsWithUsers = () => {
@@ -27,11 +31,8 @@ const Messenger = () => {
 	};
 
 	useEffect(() => {
-		if (!isLogged) {
-			history.push('/login');
-		}
 		getChatsWithUsers();
-	}, [isLogged]);
+	}, []);
 
 	return (
 		<div className='messenger'>
@@ -42,7 +43,7 @@ const Messenger = () => {
 							{userChats ? (
 								userChats.map((chat, id) => (
 									<Link key={chat.id} className='messenger__card-link' to={`chat/${chat.id}`}>
-										<div className='card messenger__card'>
+										<div className='card messenger__card' onClick={() => chatHandler(chat.id)}>
 											<div className='card-body messenger__card-body'>
 												<h5 className='card-title messenger__card-user'>
 													{usedUsers[id]?.name} {usedUsers[id]?.surname} <span className='messenger__card-user_status'>онлайн</span>

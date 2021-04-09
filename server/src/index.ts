@@ -13,10 +13,17 @@ const port: String | Number = process.env.PORT || 9000;
 
 connectDB();
 
+const onlineUsers: Object = {};
+
 io.on('connection', (socket: Socket) => {
-	// console.log('new connection', socket.id);
+	socket.on('USER:JOIN', (data) => {
+		// @ts-expect-error
+		onlineUsers[socket.id] = data.userId;
+		console.log('online users', onlineUsers);
+	});
+
 	socket.on('MESSAGE:SEND', (data: any) => {
-		// socket.emit('MESSAGE:SEND', data);
+		socket.broadcast.emit('MESSAGE:SENT', data);
 		const { userId, chatId, message } = data;
 		userTable.findOne({ id: userId }, async (err: any, user: any) => {
 			const chats = user.chats;
@@ -25,18 +32,32 @@ io.on('connection', (socket: Socket) => {
 					chat.messages.push(message);
 					user.markModified('chats');
 					user.save((err: any) => {
-						0;
 						if (err) throw Error;
 						console.log(`message ${message} was send to user id ${chatId}`);
 					});
 				}
 			}
 		});
+		userTable.findOne({ id: chatId }, async (err: any, user: any) => {
+			const chats = user.chats;
+			message.isMy = false;
+			for (const chat of chats) {
+				if (chat.id === userId) {
+					chat.messages.push(message);
+					user.markModified('chats');
+					user.save((err: any) => {
+						if (err) throw Error;
+						console.log(`message ${message} was send to user id ${userId}`);
+					});
+				}
+			}
+		});
 	});
-	socket.on('USER:JOIN', (userId) => {
-		console.log('user joined', userId, socket.id);
-		// console.log(socket.id, userId);
-		// socket.emit('USER:JOINED', userId);
+
+	socket.on('disconnect', () => {
+		console.log(`user ${socket.id} disconnected`);
+		// @ts-expect-error
+		delete onlineUsers[socket.id];
 	});
 });
 
@@ -66,17 +87,22 @@ app.get('/users/:id', async (req: Request, res: Response) => {
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
 const Dmitry = new userTable({
-	id: 1,
-	name: 'Дмитрий',
-	surname: 'Богатырев',
+	id: 2,
+	name: 'Андрей',
+	surname: 'Чистяков',
 	chats: [
 		{
 			type: 'user',
-			id: 2,
+			id: 1,
 
 			messages: [
 				{ isMy: false, message: 'димасик можешь распечатать' },
 				{ isMy: true, message: 'Да' },
+				{ isMy: false, message: 'Ок' },
+				{ isMy: true, message: 'Сорян не смогу' },
+				{ isMy: true, message: 'Сорян не смогу' },
+				{ isMy: true, message: 'Сорян не смогу' },
+				{ isMy: true, message: 'А не смогу', hash: '1617919953093.А не смогу' },
 			],
 		},
 		{
@@ -84,8 +110,8 @@ const Dmitry = new userTable({
 			id: 3,
 
 			messages: [
-				{ isMy: true, message: 'Ну я свой ещё не начинал' },
-				{ isMy: false, message: 'Хуль там делать' },
+				{ isMy: true, message: 'Салам Байдер' },
+				{ isMy: false, message: 'Здарова Чистый' },
 			],
 		},
 	],

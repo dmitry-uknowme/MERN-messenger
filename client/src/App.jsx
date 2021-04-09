@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import io from 'socket.io-client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Messenger from './components/Messenger/Messenger';
@@ -11,18 +10,19 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Login from './components/Login/Login';
 
 const App = () => {
-	const isLogged = useSelector((state) => state.user.isLogged);
+	const isOnline = useSelector((state) => state.user.isOnline);
 	return (
 		<div className='app'>
 			<Router>
 				<Switch>
 					<Route path='/chat/:id'>
-						{!isLogged ? (
+						{!isOnline ? (
 							<Redirect to='/login' />
 						) : (
 							<>
 								<Header />
 								<Chat />
+								<Sidebar />
 							</>
 						)}
 					</Route>
@@ -30,12 +30,13 @@ const App = () => {
 						<Login />
 					</Route>
 					<Route path='/'>
-						{!isLogged ? (
+						{!isOnline ? (
 							<Redirect to='/login' />
 						) : (
 							<>
 								<Header />
 								<Messenger />
+								<Sidebar />
 							</>
 						)}
 					</Route>

@@ -8,33 +8,32 @@ import './Chat.sass';
 const Chat = () => {
 	const { id } = useParams();
 	const history = useHistory();
-	// console.log(id, 'chat');
 	const [chatMessages, setChatMessages] = useState([]);
 	const [message, setMessage] = useState('');
 	const userData = useSelector((state) => state.user.data);
-	const isLogged = useSelector((state) => state.user.isLogged);
 
 	const userChats = userData.chats;
 
 	const sendMessage = (e) => {
 		e.preventDefault();
 		socket.emit('MESSAGE:SEND', {
-			message: { isMy: true, message },
+			message: { isMy: true, message, hash: `${Date.now()}.${message}` },
 			userId: userData.id,
 			chatId: parseInt(id),
 		});
 		setChatMessages((state) => [...state, { isMy: true, message }]);
 	};
 	useEffect(() => {
-		if (!isLogged) {
-			history.push('/login');
-		}
+		socket.on('MESSAGE:SENT', (data) => {
+			console.log('message data', data);
+			setChatMessages((state) => [...state, { isMy: false, message: data.message.message }]);
+		});
 		for (const chat of userChats) {
 			if (chat.id === parseInt(id)) {
 				setChatMessages(chat.messages);
 			}
 		}
-	}, [isLogged]);
+	}, []);
 
 	return (
 		<div className='chat'>
@@ -43,11 +42,11 @@ const Chat = () => {
 					{chatMessages?.map((messages) => (
 						<>
 							{messages.isMy ? (
-								<div className='chat__message-item-from' key={messages.message}>
+								<div className='chat__message-item chat__message-item-from' key={messages.message}>
 									{messages.message}
 								</div>
 							) : (
-								<div className='chat__message-item-to' key={messages.message}>
+								<div className='chat__message-item chat__message-item-to' key={messages.message}>
 									{messages.message}
 								</div>
 							)}

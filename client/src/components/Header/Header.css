@@ -1,76 +1,88 @@
 .header {
-  max-width: 1200px;
-  display: flex;
-  align-items: center;
-  margin: 0 auto;
-  height: 40px;
+	max-width: 1200px;
+	display: flex;
+	align-items: center;
+	margin: 0 auto;
+	height: 40px;
 }
 
 .header__container {
-  background: #4a76a8;
-  /* background: #55d6aa; */
+	background: #4a76a8;
+	/* background: #55d6aa; */
 }
 
 .header__logo {
-  /* height: 10px; */
+	/* height: 10px; */
 }
 
 .header__search {
-  position: relative;
-  z-index: 1;
-  margin-left: 150px;
+	position: relative;
+	z-index: 1;
+	margin-left: 150px;
 }
 
 .header__searchInput {
-  padding: 7px;
-  background: #224b7a;
-  color: #fff;
+	padding: 7px;
+	background: #224b7a;
+	color: #fff;
 
-  border: none;
-  border-radius: 20px;
+	border: none;
+	border-radius: 20px;
 }
 
 .header__searchIcon {
-  color: #8eacc6;
-  position: absolute;
-  top: 7px;
-  left: 8px;
-  z-index: 2;
+	color: #8eacc6;
+	position: absolute;
+	top: 7px;
+	left: 8px;
+	z-index: 2;
 }
 
 .header__notifications {
-  margin-left: 100px;
+	margin-left: 100px;
+	display: flex;
+	align-items: center;
 }
 
 .header__noficationsIcon {
-  margin-top: 7px;
-  color: #fff;
+	margin-top: 7px;
+	color: #fff;
 }
 
 .header__audio {
-  margin-left: 100px;
-  display: flex;
+	margin-left: 100px;
+	display: flex;
+	align-items: center;
+}
+
+.header__audioPlaying {
+	margin-left: 20px;
 }
 
 .header__audioPause {
-  margin: 0 15px;
+	margin: 0 15px;
 }
 
 .header__audioStop {
-  margin: 0 15px;
+	margin: 0 15px;
 }
 
 .header__audio svg {
-  color: #fff;
+	color: #fff;
 }
 
 .header ::placeholder {
-  font-size: 14px;
-  padding-left: 25px;
-  color: #8eacc6;
-  margin-left: 15px;
+	font-size: 14px;
+	padding-left: 25px;
+	color: #8eacc6;
+	margin-left: 15px;
 }
 
 .header svg {
-  font-size: 20px;
+	font-size: 20px;
+}
+
+.header__profile {
+	margin-left: 100px;
+	color: white;
 }

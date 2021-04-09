@@ -5,7 +5,6 @@ import axios from 'axios';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 
 import './Messenger.sass';
-import socket from '../../utils/socket';
 
 const Messenger = () => {
 	const [usedUsers, setUsedUsers] = useState([]);
@@ -13,11 +12,6 @@ const Messenger = () => {
 	const userChats = userData.chats;
 	const lastMessage = (id) => {
 		return userChats[id]['messages'][userChats[id]['messages'].length - 1]['message'];
-	};
-
-	const chatHandler = (chatId) => {
-		// 	socket.emit('USER:JOIN', chatId);
-		console.log('hello');
 	};
 
 	const getChatsWithUsers = () => {
@@ -43,13 +37,11 @@ const Messenger = () => {
 							{userChats ? (
 								userChats.map((chat, id) => (
 									<Link key={chat.id} className='messenger__card-link' to={`chat/${chat.id}`}>
-										<div className='card messenger__card' onClick={() => chatHandler(chat.id)}>
+										<div className='card messenger__card'>
 											<div className='card-body messenger__card-body'>
 												<h5 className='card-title messenger__card-user'>
 													{usedUsers[id]?.name} {usedUsers[id]?.surname} <span className='messenger__card-user_status'>онлайн</span>
 												</h5>
-
-												{/* <p className='card-text messenger__card-message'>АУЕ! Дарова ебаный рот, я присоединился к этой социальной сети</p> */}
 
 												<p className='card-text messenger__card-message'>{lastMessage(id)}</p>
 											</div>
@@ -71,19 +63,3 @@ const Messenger = () => {
 };
 
 export default Messenger;
-
-// {
-// 	userData.chats.map((chat) => (
-// 		<Link className='messenger__card-link' to='chat/1'>
-// 			<div className='card messenger__card'>
-// 				<div className='card-body messenger__card-body'>
-// 					<h5 className='card-title messenger__card-user'>
-// 						Андрей Чистяков <span className='messenger__card-user_status'>онлайн</span>
-// 					</h5>
-// 					{/* <p className='card-text messenger__card-message'>АУЕ! Дарова ебаный рот, я присоединился к этой социальной сети</p> */}
-// 					<p className='card-text messenger__card-message'>димасик можешь распечатать</p>
-// 				</div>
-// 			</div>
-// 		</Link>
-// 	));
-// }

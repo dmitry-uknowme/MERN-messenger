@@ -8,9 +8,11 @@ import PauseIcon from '@material-ui/icons/Pause';
 import StopIcon from '@material-ui/icons/Stop';
 import './Header.css';
 import { ReactComponent as Logo } from '../../img/vk.svg';
+import { useSelector } from 'react-redux';
 
 export const Header = () => {
-	const [audioPlaying, setAudioPlaying] = useState({ playing: true, artist: 'Audio1', title: 'Audio1' });
+	const userData = useSelector((state) => state.user.data);
+	const [audioPlaying, setAudioPlaying] = useState({ playing: true, artist: 'Автор', title: 'Аудио' });
 	const [notifications, setNotifications] = useState((Math.random() * (20 - 1 - 0)).toFixed(0));
 	// console.log(audioPlaying);
 	return (
@@ -52,7 +54,9 @@ export const Header = () => {
 						)}
 					</div>
 				</div>
-				<div className='header__profile'></div>
+				<div className='header__profile'>
+					{userData.name} {userData.surname}
+				</div>
 			</div>
 		</div>
 	);

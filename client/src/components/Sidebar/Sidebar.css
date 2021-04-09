@@ -1,7 +1,7 @@
 .sidebar {
 	position: fixed;
-	top: 200px;
-	left: 10%;
+	left: 6%;
+	top: 10%;
 }
 
 .sidebar__item {
@@ -20,7 +20,20 @@
 	padding: 3px;
 }
 
+.sidebar__item._active .sidebar__itemIcon {
+	background: #000;
+	transition: all 0.4s;
+	color: #fff;
+	border-radius: 50%;
+	padding: 3px;
+}
+
 .sidebar__item:hover .sidebar__itemText {
+	transition: all 0.4s;
+	color: chartreuse;
+}
+
+.sidebar__item._active .sidebar__itemText {
 	transition: all 0.4s;
 	color: chartreuse;
 }

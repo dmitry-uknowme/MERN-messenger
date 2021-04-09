@@ -17,9 +17,6 @@ const Login = () => {
 		dispatch(setIsOnline(true));
 
 		socket.emit('USER:JOIN', { userId: parseInt(userInput) });
-		// socket.on('USER:JOINED', (userId) => {
-		// 	console.log('new user online', userId);
-		// });
 		history.push('/');
 	};
 
@@ -28,9 +25,9 @@ const Login = () => {
 			<div className='container-fluid'>
 				<div className='row'>
 					<div className='col-md-4 offset-md-4'>
-						{/* <label htmlFor='exampleInputEmail1' className='form-label'>
-								Введите id пользователя:
-							</label> */}
+						<label htmlFor='exampleInputEmail1' className='form-label'>
+							Введите id пользователя:
+						</label>
 						<input type='text' className='form-control' value={userInput} onChange={(e) => setUserInput(e.target.value)} />
 
 						<div className='d-flex justify-content-center mt-3'>

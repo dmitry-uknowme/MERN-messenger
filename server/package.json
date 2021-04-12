@@ -9,7 +9,6 @@
     "build": "webpack -w",
     "serve": "nodemon ./build/index.js --ignore client"
   },
-  
   "author": "",
   "license": "ISC",
   "devDependencies": {

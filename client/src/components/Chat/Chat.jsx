@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, history, useHistory } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import socket from '../../utils/socket';
 import SendIcon from '@material-ui/icons/Send';
 import './Chat.sass';
@@ -12,9 +13,30 @@ const Chat = () => {
   const [message, setMessage] = useState('');
   const userData = useSelector((state) => state.user.data);
 
+  const isMessageEmpty = message.trim() === '';
   const userChats = userData.chats;
 
+  const scrollChat = (toPos) => {
+    if (toPos === 'bottom') {
+      toPos = 100;
+    } else if (toPos === 'top') {
+      toPos = 0;
+    }
+    const chatEl = document.querySelector('.chat__messages');
+
+    let i = 0;
+    const scrollTimer = setInterval(() => {
+      const scrollPosition =
+        (chatEl.scrollTop / (chatEl.scrollHeight - chatEl.clientHeight)) * 100;
+      if (scrollPosition === toPos) return clearInterval(scrollTimer);
+
+      chatEl.scrollBy(0, i);
+      i++;
+    }, 10);
+  };
+
   const sendMessage = (e) => {
+    if (isMessageEmpty) return false;
     e.preventDefault();
     socket.emit('MESSAGE:SEND', {
       message: { isMy: true, message, hash: `${Date.now()}.${message}` },
@@ -24,6 +46,7 @@ const Chat = () => {
     setChatMessages((state) => [...state, { isMy: true, message }]);
   };
   useEffect(() => {
+    setTimeout(() => scrollChat('bottom'), 0);
     socket.on('MESSAGE:SENT', (data) => {
       console.log('message data', data);
       setChatMessages((state) => [
@@ -39,31 +62,29 @@ const Chat = () => {
   }, []);
 
   return (
-    <section className="chat__section col-md-8 offset-md-1">
+    <section className="chat__section col-md-8 offset-md-1 col-sm-9">
       <div className="chat">
         <div className="chat__header">Имя Фамилия</div>
-        <div className="chat__messages">
-          {chatMessages?.map((messages) => (
+        <TransitionGroup className="chat__messages">
+          {chatMessages?.map((messages, id) => (
             <>
               {messages.isMy ? (
-                <div
-                  className="chat__message chat__message-from"
-                  key={messages.message}
-                >
-                  {messages.message}
-                </div>
+                <CSSTransition key={id} classNames="message" timeout={500}>
+                  <div className="chat__message chat__message-from">
+                    {messages.message}
+                  </div>
+                </CSSTransition>
               ) : (
-                <div
-                  className="chat__message chat__message-to"
-                  key={messages.message}
-                >
-                  {messages.message}
-                </div>
+                <CSSTransition key={id} classNames="message" timeout={500}>
+                  <div className="chat__message chat__message-to">
+                    {messages.message}
+                  </div>
+                </CSSTransition>
               )}
             </>
           ))}
-          <br />
-        </div>
+        </TransitionGroup>
+
         <div className="chat__input">
           <textarea
             className="chat__input-area"
@@ -71,11 +92,13 @@ const Chat = () => {
             placeholder="Введите сообщение"
             onChange={(e) => setMessage(e.target.value)}
           />
-          <SendIcon
-            type="button"
-            className="chat__input-send"
-            onClick={sendMessage}
-          ></SendIcon>
+          {!isMessageEmpty && (
+            <SendIcon
+              type="button"
+              className="chat__input-send"
+              onClick={sendMessage}
+            ></SendIcon>
+          )}
         </div>
       </div>
     </section>

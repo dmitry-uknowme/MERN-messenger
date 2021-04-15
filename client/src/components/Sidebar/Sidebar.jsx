@@ -7,7 +7,7 @@ import GroupIcon from '@material-ui/icons/Group';
 
 const Sidebar = () => {
   return (
-    <div className="sidebar__section col-md-2">
+    <div className="sidebar__section col-md-2 col-sm-3">
       <div className="sidebar">
         <div className="sidebar__item">
           <div className="sidebar__itemText">Мой профиль</div>

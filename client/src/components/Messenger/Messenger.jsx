@@ -31,7 +31,7 @@ const Messenger = () => {
   }, []);
 
   return (
-    <div className="messenger__section col-md-8 offset-md-1">
+    <div className="messenger__section col-md-8 offset-md-1 col-sm-9">
       <div className="messenger">
         <div className="col-md-12">
           {userChats ? (

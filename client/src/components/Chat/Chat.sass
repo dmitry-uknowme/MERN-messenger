@@ -31,6 +31,7 @@
             border-color: aqua
             background: lighten(aqua,40%)
             margin-right: auto
+
         &-to
             border-color: lime
             background: lighten(lime,40%)
@@ -49,3 +50,18 @@
         &-send
             color: #224b7a
             margin-left: 2%
+
+.message
+    &-enter
+        opacity: 0
+
+    &-enter-active
+        opacity: 1
+        transition: opacity 500ms ease-in
+
+        &-exit
+            opacity: 1
+
+        &-active
+            opacity: 0
+            transition: opacity 500ms ease-in

@@ -17,12 +17,13 @@ const Chat = () => {
   const userChats = userData.chats;
 
   const scrollChat = (toPos) => {
+    const chatEl = document.querySelector('.chat__messages');
+    if (chatEl.scrollHeight === chatEl.clientHeight) return false;
     if (toPos === 'bottom') {
       toPos = 100;
     } else if (toPos === 'top') {
       toPos = 0;
     }
-    const chatEl = document.querySelector('.chat__messages');
 
     let i = 0;
     const scrollTimer = setInterval(() => {
@@ -44,6 +45,8 @@ const Chat = () => {
       chatId: parseInt(id),
     });
     setChatMessages((state) => [...state, { isMy: true, message }]);
+    // setMessage('');
+    setTimeout(() => scrollChat('bottom'), 200);
   };
   useEffect(() => {
     setTimeout(() => scrollChat('bottom'), 0);
@@ -51,8 +54,13 @@ const Chat = () => {
       console.log('message data', data);
       setChatMessages((state) => [
         ...state,
-        { isMy: false, message: data.message.message },
+        {
+          isMy: false,
+          message: data.message.message,
+          hash: `${Date.now()}.${message}`,
+        },
       ]);
+      setTimeout(() => scrollChat('bottom'), 100);
     });
     for (const chat of userChats) {
       if (chat.id === parseInt(id)) {

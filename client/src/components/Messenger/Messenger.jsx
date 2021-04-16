@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUsedUsers } from '../../reducers/userReducer';
 import axios from 'axios';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-
 import './Messenger.sass';
 
 const Messenger = () => {
-  const [usedUsers, setUsedUsers] = useState([]);
+  const dispatch = useDispatch();
+  // const [usedUsers, setUsedUsers] = useState([]);
   const userData = useSelector((state) => state.user.data);
+  const usedUsers = useSelector((state) => state.user.usedUsers);
   const userChats = userData.chats;
   const lastMessage = (id) => {
     return userChats[id]['messages'][userChats[id]['messages'].length - 1][
@@ -20,7 +22,8 @@ const Messenger = () => {
     if (userChats) {
       userChats.map(async (chat) => {
         await axios.get(`/users/${chat.id}`).then((response) => {
-          setUsedUsers((state) => [...state, response.data]);
+          console.log(chat.id);
+          dispatch(setUsedUsers(response.data));
         });
       });
     }

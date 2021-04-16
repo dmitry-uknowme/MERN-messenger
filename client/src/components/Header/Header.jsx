@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Modal from './Modal/Modal';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
@@ -20,12 +21,13 @@ export const Header = () => {
   const [notifications, setNotifications] = useState(
     (Math.random() * (20 - 1 - 0)).toFixed(0)
   );
-  // console.log(audioPlaying);
   return (
-    <div className="col-md-12">
+    <header className="header__section col-md-12">
       <div className="header__container">
         <div className="header">
-          <Logo className="header__logo" />
+          <Link to="/messenger">
+            <Logo className="header__logo" />
+          </Link>
           <div className="header__search">
             <SearchIcon className="header__searchIcon" />
             <input
@@ -78,7 +80,7 @@ export const Header = () => {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 

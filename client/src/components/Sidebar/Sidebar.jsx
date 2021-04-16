@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Sidebar.sass';
 import PersonIcon from '@material-ui/icons/Person';
 import FiberNewIcon from '@material-ui/icons/FiberNew';
@@ -7,7 +8,7 @@ import GroupIcon from '@material-ui/icons/Group';
 
 const Sidebar = () => {
   return (
-    <div className="sidebar__section col-md-2 col-sm-3">
+    <nav className="sidebar__section col-md-2 col-sm-3">
       <div className="sidebar">
         <div className="sidebar__item">
           <div className="sidebar__itemText">Мой профиль</div>
@@ -17,16 +18,17 @@ const Sidebar = () => {
           <div className="sidebar__itemText">Новости</div>
           <FiberNewIcon className="sidebar__itemIcon"></FiberNewIcon>
         </div>
-        <div className="sidebar__item _active">
+
+        <Link to="/" className="sidebar__item">
           <div className="sidebar__itemText">Сообщения</div>
           <SmsIcon className="sidebar__itemIcon"></SmsIcon>
-        </div>
-        <div className="sidebar__item">
+        </Link>
+        <Link to="/friends" className="sidebar__item">
           <div className="sidebar__itemText">Друзья</div>
           <GroupIcon className="sidebar__itemIcon"></GroupIcon>
-        </div>
+        </Link>
       </div>
-    </div>
+    </nav>
   );
 };
 

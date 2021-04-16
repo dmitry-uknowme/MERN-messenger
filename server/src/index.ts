@@ -40,9 +40,11 @@ io.on('connection', (socket: Socket) => {
 		});
 		userTable.findOne({ id: chatId }, async (err: any, user: any) => {
 			const chats = user.chats;
-			message.isMy = false;
 			for (const chat of chats) {
 				if (chat.id === userId) {
+					console.log(
+						'messssss', message
+					)
 					chat.messages.push(message);
 					user.markModified('chats');
 					user.save((err: any) => {

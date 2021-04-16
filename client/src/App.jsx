@@ -13,6 +13,7 @@ import Chat from './components/Chat/Chat';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import Login from './components/Login/Login';
+import Friends from './components/Friends/Friends';
 
 const App = () => {
   const isOnline = useSelector((state) => state.user.isOnline);
@@ -30,6 +31,17 @@ const App = () => {
                     <Header />
                     <Sidebar />
                     <Chat />
+                  </>
+                )}
+              </Route>
+              <Route path="/friends">
+                {!isOnline ? (
+                  <Redirect to="/login" />
+                ) : (
+                  <>
+                    <Header />
+                    <Sidebar />
+                    <Friends />
                   </>
                 )}
               </Route>

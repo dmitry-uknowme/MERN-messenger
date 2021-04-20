@@ -12,9 +12,9 @@ const Chat = () => {
   const [chatMessages, setChatMessages] = useState([]);
   const [message, setMessage] = useState('');
   const userData = useSelector((state) => state.user.data);
-
   const isMessageEmpty = message.trim() === '';
   const userChats = userData.chats;
+  const currentChat = userChats.find((chat) => chat.id === parseInt(id));
 
   const scrollChat = (toPos) => {
     const chatEl = document.querySelector('.chat__messages');
@@ -45,7 +45,6 @@ const Chat = () => {
       chatId: parseInt(id),
     });
     setChatMessages((state) => [...state, { isMy: true, message }]);
-    // setMessage('');
     setTimeout(() => scrollChat('bottom'), 200);
   };
   useEffect(() => {
@@ -67,12 +66,14 @@ const Chat = () => {
         setChatMessages(chat.messages);
       }
     }
-  }, []);
+  }, [userChats]);
 
   return (
     <section className="chat__section col-md-8 offset-md-1 col-sm-9">
       <div className="chat">
-        <div className="chat__header">Имя Фамилия</div>
+        <div className="chat__header">
+          {currentChat.name} {currentChat.surname}
+        </div>
         <TransitionGroup className="chat__messages">
           {chatMessages?.map((messages, id) => (
             <>

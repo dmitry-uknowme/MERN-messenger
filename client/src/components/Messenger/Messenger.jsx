@@ -8,46 +8,29 @@ import './Messenger.sass';
 
 const Messenger = () => {
   const dispatch = useDispatch();
-  // const [usedUsers, setUsedUsers] = useState([]);
+  const [userChats, setUserChats] = useState();
   const userData = useSelector((state) => state.user.data);
-  const usedUsers = useSelector((state) => state.user.usedUsers);
-  const userChats = userData.chats;
-  const lastMessage = (id) => {
-    return userChats[id]['messages'][userChats[id]['messages'].length - 1][
-      'message'
-    ];
-  };
 
-  const getChatsWithUsers = () => {
-    if (userChats) {
-      userChats.map(async (chat) => {
-        await axios.get(`/users/${chat.id}`).then((response) => {
-          console.log(chat.id);
-          dispatch(setUsedUsers(response.data));
-        });
-      });
-    }
+  const lastMessage = (id) => {
+    const currentChat = userChats.find((chat) => chat.id === id);
+    return currentChat.messages[currentChat.messages.length - 1].message;
   };
 
   useEffect(() => {
-    getChatsWithUsers();
-  }, []);
+    setUserChats(userData.chats);
+  }, [userData]);
 
   return (
     <div className="messenger__section col-md-8 offset-md-1 col-sm-9">
       <div className="messenger">
         <div className="col-md-12">
           {userChats ? (
-            userChats.map((chat, id) => (
-              <Link
-                key={chat.id}
-                className="messenger__card-link"
-                to={`chat/${chat.id}`}
-              >
+            userChats.map(({ id, name, surname, messages }) => (
+              <Link key={id} className="messenger__card-link" to={`chat/${id}`}>
                 <div className="card messenger__card">
                   <div className="card-body messenger__card-body">
                     <h5 className="card-title messenger__card-user">
-                      {usedUsers[id]?.name} {usedUsers[id]?.surname}{' '}
+                      {name} {surname}{' '}
                       <span className="messenger__card-user_status">
                         онлайн
                       </span>

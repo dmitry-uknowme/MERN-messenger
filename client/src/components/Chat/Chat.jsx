@@ -66,10 +66,11 @@ const Chat = () => {
         setChatMessages(chat.messages);
       }
     }
+    document.title = `Чат с ${currentChat.name} ${currentChat.surname}`;
   }, [userChats]);
 
   return (
-    <section className="chat__section col-md-8 offset-md-1 col-sm-9">
+    <section className="chat__section col-md-8 col-sm-9">
       <div className="chat">
         <div className="chat__header">
           {currentChat.name} {currentChat.surname}

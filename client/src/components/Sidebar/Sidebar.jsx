@@ -1,14 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Sidebar.sass';
 import PersonIcon from '@material-ui/icons/Person';
 import FiberNewIcon from '@material-ui/icons/FiberNew';
 import SmsIcon from '@material-ui/icons/Sms';
 import GroupIcon from '@material-ui/icons/Group';
+import CodeIcon from '@material-ui/icons/Code';
 
 const Sidebar = () => {
+  const isAdmin = useSelector((state) => state.user.isAdmin);
   return (
-    <nav className="sidebar__section col-md-2 col-sm-3">
+    <nav className="sidebar__section col-md-3">
       <div className="sidebar">
         <div className="sidebar__item">
           <div className="sidebar__itemText">Мой профиль</div>
@@ -27,6 +30,12 @@ const Sidebar = () => {
           <div className="sidebar__itemText">Друзья</div>
           <GroupIcon className="sidebar__itemIcon"></GroupIcon>
         </Link>
+        {isAdmin && (
+          <Link to="/admin" className="sidebar__item">
+            <div className="sidebar__itemText">Админ-панель</div>
+            <CodeIcon className="sidebar__itemIcon"></CodeIcon>
+          </Link>
+        )}
       </div>
     </nav>
   );

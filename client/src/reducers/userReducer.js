@@ -6,8 +6,8 @@ const SET_USER_CHATS = 'SET_USER_CHATS';
 
 const defaulState = {
   isOnline: false,
+  isAdmin: true,
   data: {},
-  usedUsers: [],
 };
 
 const userReducer = (state = defaulState, action) => {

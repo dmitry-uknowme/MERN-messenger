@@ -14,6 +14,7 @@ import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import Login from './components/Login/Login';
 import Friends from './components/Friends/Friends';
+import Admin from './components/Admin/Admin';
 
 const App = () => {
   const isOnline = useSelector((state) => state.user.isOnline);
@@ -42,6 +43,17 @@ const App = () => {
                     <Header />
                     <Sidebar />
                     <Friends />
+                  </>
+                )}
+              </Route>
+              <Route path="/admin">
+                {!isOnline ? (
+                  <Redirect to="/login" />
+                ) : (
+                  <>
+                    <Header />
+                    <Sidebar />
+                    <Admin />
                   </>
                 )}
               </Route>

@@ -8,7 +8,7 @@ const socket = io('http://localhost:9000');
 const ChatsPage = () => {
 	const [count, setCount] = useState(0);
 	socket.on('connect', function () {
-		console.log('Connected 1', socket);
+		console.log('Connected 1', socket.id);
 	});
 	socket.on('MESSAGE:SENT', (data) => {
 		console.log('message data', data);

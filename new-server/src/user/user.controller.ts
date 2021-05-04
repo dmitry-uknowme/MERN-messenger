@@ -3,7 +3,7 @@ import { ObjectId } from 'mongoose';
 import { CreateUserPayload } from './user.payload';
 import { UserService } from './user.service';
 
-@Controller('/users')
+@Controller('/api/users')
 export class UserController {
   constructor(private userService: UserService) {}
   @Post()

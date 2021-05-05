@@ -36,8 +36,7 @@ const ChatsPage = () => {
 
 export default ChatsPage;
 
-export const getServerSideProps = wrapper.getServerSideProps(async ({ store }) => {
-	const dispatch = store.dispatch as NextThunkDispatch;
-
-	await dispatch(fetchUser('6091730e46480d0b6c39f6d8'));
-});
+// export const getServerSideProps = wrapper.getServerSideProps(async ({ store }) => {
+// 	const dispatch = store.dispatch as NextThunkDispatch;
+// 	await dispatch(fetchUser('6091730e46480d0b6c39f6d8'));
+// });

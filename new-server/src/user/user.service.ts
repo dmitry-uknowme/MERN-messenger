@@ -11,6 +11,8 @@ export class UserService {
   async create(payload: CreateUserPayload): Promise<User> {
     return await this.userModel.create({
       ...payload,
+      isOnline: false,
+      isAdmin: false,
       nickname: `${tr(payload.name)}-${tr(payload.surname)}`.toLowerCase(),
       friends: [],
       chats: [],

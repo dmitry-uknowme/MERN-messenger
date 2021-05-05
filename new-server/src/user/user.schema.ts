@@ -8,6 +8,12 @@ export type UserDocument = User & Document;
 @Schema()
 export class User {
   @Prop()
+  isOnline: boolean;
+
+  @Prop()
+  isAdmin: boolean;
+
+  @Prop()
   name: string;
 
   @Prop()

@@ -14,10 +14,11 @@ export class UserController {
   getAll() {
     return this.userService.getAll();
   }
-  @Get(':id')
-  getOne(@Param('id') id: ObjectId) {
-    return this.userService.getOne(id);
+  @Get(':nickname')
+  getOne(@Param('nickname') nickname: string) {
+    return this.userService.getOne(nickname);
   }
+
   @Delete(':id')
   delete(@Param('id') id: ObjectId) {
     return this.userService.delete(id);

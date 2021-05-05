@@ -15,6 +15,8 @@ const userReducer = (state = defaultState, action: UserAction) => {
 	switch (action.type) {
 		case UserActionTypes.FETCH_USER:
 			return action.payload;
+		case UserActionTypes.SET_USER_ONLINE:
+			return { ...state, isOnline: action.payload };
 		default:
 			return state;
 	}

@@ -14,6 +14,7 @@ export interface IUser {
 export enum UserActionTypes {
 	FETCH_USER = 'FETCH_USER',
 	FETCH_USER_ERROR = 'FETCH_USER_ERROR',
+	SET_USER_ONLINE = 'SET_USER_ONLINE',
 }
 
 interface FetchUserAction {
@@ -25,4 +26,9 @@ interface FetchUserErrorAction {
 	payload: string;
 }
 
-export type UserAction = FetchUserAction | FetchUserErrorAction;
+interface SetUserOnlineAction {
+	type: UserActionTypes.SET_USER_ONLINE;
+	payload: boolean;
+}
+
+export type UserAction = FetchUserAction | FetchUserErrorAction | SetUserOnlineAction;

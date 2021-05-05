@@ -21,8 +21,8 @@ export class UserService {
   async getAll() {
     return await this.userModel.find();
   }
-  async getOne(id: ObjectId): Promise<User> {
-    return await this.userModel.findById(id);
+  async getOne(nickname: string): Promise<User> {
+    return await this.userModel.findOne({ nickname });
   }
   async delete(id: ObjectId): Promise<UserDocument> {
     return await this.userModel.findByIdAndDelete(id);

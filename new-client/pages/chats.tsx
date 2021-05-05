@@ -29,7 +29,7 @@ const ChatsPage = () => {
 	return (
 		<div>
 			Chats Page <button /* onClick={send} */>Press to send</button>
-			{JSON.stringify(user, null, 10)}
+			{user ? JSON.stringify(user, null, 10) : ''}
 		</div>
 	);
 };

@@ -1,13 +1,13 @@
 import Login from '../components/Login';
 import { NextThunkDispatch, wrapper } from '../store';
 import { fetchUser } from '../store/action-creators/user';
-import MainTemplate from '../templates/MainTemplate';
+import FullscreenTemplate from '../templates/FullscreenTemplate';
 
 const LoginPage = () => {
 	return (
-		<MainTemplate>
+		<FullscreenTemplate title='Вход'>
 			<Login />
-		</MainTemplate>
+		</FullscreenTemplate>
 	);
 };
 

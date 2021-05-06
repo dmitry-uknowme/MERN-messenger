@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import Header from '../components/Header';
-const MainTemplate = ({ children, title }) => {
+const FullscreenTemplate = ({ children, title }) => {
 	return (
 		<>
 			<Head>
@@ -13,14 +12,11 @@ const MainTemplate = ({ children, title }) => {
 
 			<div className='app'>
 				<div className='container-fluid h-100 p-0'>
-					<div className='row h-100 app__row'>
-						<Header />
-						{children}
-					</div>
+					<div className='row h-100 app__row'>{children}</div>
 				</div>
 			</div>
 		</>
 	);
 };
 
-export default MainTemplate;
+export default FullscreenTemplate;

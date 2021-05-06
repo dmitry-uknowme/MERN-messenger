@@ -52,7 +52,7 @@ const Login = () => {
 				<div className='row'>
 					<div className='col-md-4 offset-md-4'>
 						<label htmlFor='exampleInputEmail1' className='form-label'>
-							Введите id пользователя:
+							Введите никнейм пользователя:
 						</label>
 						<input type='text' className='form-control' value={userInput} onChange={(e) => setUserInput(e.target.value)} />
 

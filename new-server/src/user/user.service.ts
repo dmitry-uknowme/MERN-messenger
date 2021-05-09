@@ -71,8 +71,13 @@ export class UserService {
 
   async deleteUserChat(nickname: string, id: ObjectId) {
     const user = await this.userModel.findOne({ nickname });
+    const chat = await this.chatModel.findById(id);
     user.chats = user.chats.filter((chat) => chat.toString() !== id.toString());
+    chat.members = chat.members.filter(
+      (member) => member.toString() !== user._id.toString(),
+    );
     await user.save();
+    await chat.save();
     return user.chats;
   }
 }

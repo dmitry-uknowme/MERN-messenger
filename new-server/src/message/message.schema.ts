@@ -1,18 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { User } from 'src/user/user.schema';
 
 export type MessageDocument = Message & Document;
 
 @Schema()
 export class Message {
   @Prop()
-  isMy: boolean;
+  user: User;
 
   @Prop()
   text: string;
 
   @Prop()
-  hash: string;
+  date: string;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);

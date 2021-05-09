@@ -11,38 +11,51 @@ import { ObjectId } from 'mongoose';
 import { ChangeChatTypePayload, CreateChatPayload } from './chat.payload';
 import { ChatService } from './chat.service';
 
-@Controller('/api/chats')
+@Controller('/api/users/:nickname/chats')
 export class ChatController {
   constructor(private chatService: ChatService) {}
-  @Post()
-  create(@Body() payload: CreateChatPayload) {
-    return this.chatService.create(payload);
-  }
+  // @Post()
+  // create(@Body() payload: CreateChatPayload) {
+  //   return this.chatService.create(payload);
+  // }
 
-  @Get()
-  getAll() {
-    return this.chatService.getAll();
-  }
+  // @Get()
+  // getAllOfUser(@Param('nickname') nickname: string) {
+  //   return this.chatService.getAllOfUser(nickname);
+  // }
 
-  @Get(':id')
-  getOne(@Param('id') id: ObjectId) {
-    return this.chatService.getOne(id);
-  }
+  // @Get(':chatId')
+  // getOneOfUser(
+  //   @Param('nickname') nickname: string,
+  //   @Param('chatId') chatId: string,
+  // ) {
+  //   return this.chatService.getOneOfUser(nickname, chatId);
+  // }
 
-  @Put(':id')
-  changeType(
-    @Param('id') id: ObjectId,
-    @Body() payload: ChangeChatTypePayload,
-  ) {
-    return this.chatService.changeType(id, payload);
-  }
+  // @Get(':nickname')
+  // getOne(@Param('nickname') nickname: string) {
+  //   return;
+  // }
 
-  @Delete()
-  deleteAll() {
-    return this.chatService.deleteAll();
-  }
-  @Delete(':id')
-  deleteOne(@Param('id') id: ObjectId) {
-    return this.chatService.deleteOne(id);
-  }
+  // @Get(':id')
+  // getOne(@Param('id') id: ObjectId) {
+  //   return this.chatService.getOne(id);
+  // }
+
+  // @Put(':id')
+  // changeType(
+  //   @Param('id') id: ObjectId,
+  //   @Body() payload: ChangeChatTypePayload,
+  // ) {
+  //   return this.chatService.changeType(id, payload);
+  // }
+
+  // @Delete()
+  // deleteAll() {
+  //   return this.chatService.deleteAll();
+  // }
+  // @Delete(':id')
+  // deleteOne(@Param('id') id: ObjectId) {
+  //   return this.chatService.deleteOne(id);
+  // }
 }

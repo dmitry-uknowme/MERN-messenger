@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Message } from 'src/message/message.schema';
+import { User } from 'src/user/user.schema';
 
 export type ChatDocument = Chat & Document;
 
@@ -9,7 +10,8 @@ export type ChatDocument = Chat & Document;
 export class Chat {
   @Prop()
   type: string;
-
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  members: User[];
   @Prop()
   messages: Message[];
 }

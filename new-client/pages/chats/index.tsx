@@ -1,7 +1,6 @@
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { NextThunkDispatch, wrapper } from '../../store';
 import { fetchUser } from '../../store/action-creators/user';
-import { useEffect } from 'react';
 import MainTemplate from '../../templates/MainTemplate';
 import ChatList from '../../components/ChatList';
 

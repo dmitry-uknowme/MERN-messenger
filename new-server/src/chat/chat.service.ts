@@ -1,6 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
+import { User, UserDocument } from 'src/user/user.schema';
+
 import { ChangeChatTypePayload, CreateChatPayload } from './chat.payload';
 import { Chat, ChatDocument } from './chat.schema';
 
@@ -12,25 +14,35 @@ export class ChatService {
     return await this.chatModel.create({
       type: payload.type,
       messages: [],
+      members: [],
     });
   }
-  async getAll(): Promise<ChatDocument[]> {
-    return await this.chatModel.find();
+  async getAllOfUser(nickname: string): Promise<ChatDocument[]> {
+    //@ts-expect-error
+    return await this.chatModel.find({ members: [nickname] });
   }
-  async getOne(id: ObjectId): Promise<Chat> {
-    return await this.chatModel.findById(id);
-  }
-
-  async changeType(id: ObjectId, payload: ChangeChatTypePayload) {
-    return await this.chatModel.findByIdAndDelete(id, {
-      //@ts-expect-error
-      type: payload.type,
-    });
-  }
-  async deleteAll(): Promise<Chat> {
-    return await this.chatModel.findByIdAndDelete();
-  }
-  async deleteOne(id: ObjectId): Promise<Chat> {
-    return await this.chatModel.findByIdAndDelete(id);
-  }
+  // async getOneOfUser(
+  //   nickname: string,
+  //   chatId: string,
+  // ): Promise<ChatDocument[]> {
+  //   return await this.chatModel.find({ members: [nickname] });
+  // }
 }
+
+//   async getOne(id: ObjectId): Promise<Chat> {
+//     return await this.chatModel.findById(id);
+//   }
+
+//   async changeType(id: ObjectId, payload: ChangeChatTypePayload) {
+//     return await this.chatModel.findByIdAndDelete(id, {
+//       //@ts-expect-error
+//       type: payload.type,
+//     });
+//   }
+//   async deleteAll(): Promise<Chat> {
+//     return await this.chatModel.findByIdAndDelete();
+//   }
+//   async deleteOne(id: ObjectId): Promise<Chat> {
+//     return await this.chatModel.findByIdAndDelete(id);
+//   }
+// }

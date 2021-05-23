@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
@@ -7,24 +8,25 @@ import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PauseIcon from '@material-ui/icons/Pause';
 import StopIcon from '@material-ui/icons/Stop';
 import styles from './header.module.sass';
-import Logo from '../../img/vk.svg';
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 export const Header = () => {
-	const userData = useSelector((state) => state.user);
+	const userData = useTypedSelector((state) => state.user);
 	const [audioPlaying, setAudioPlaying] = useState({
 		playing: true,
 		artist: 'Автор',
 		title: 'Аудио',
 	});
-	const [notifications, setNotifications] = useState((Math.random() * (20 - 1 - 0)).toFixed(0));
+	const [notifications, setNotifications] = useState<number>(/* (Math.random() * (20 - 1 - 0)).toFixed(0) */ 0);
 	return (
 		<header className='header__section col-md-12'>
 			<div className={styles.header__container}>
 				<div className={styles.header}>
-					{/* <Link to='/messenger'>
-						<Logo className='header__logo' />
-					</Link> */}
+					<Link href='/'>
+						<div className={styles.header__logo}>
+							<Image src='/img/vk.svg' alt='Picture of the author' width={30} height={30} />
+						</div>
+					</Link>
 					<div className={styles.header__search}>
 						<SearchIcon className={styles.header__searchIcon} />
 						<input className={styles.header__searchInput} type='text' placeholder='Поиск друзей' />

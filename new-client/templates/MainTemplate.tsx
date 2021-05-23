@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 const MainTemplate = ({ children, title }) => {
 	return (
 		<>
@@ -15,6 +16,7 @@ const MainTemplate = ({ children, title }) => {
 				<div className='container-fluid h-100 p-0'>
 					<div className='row h-100 app__row'>
 						<Header />
+						<Sidebar />
 						{children}
 					</div>
 				</div>

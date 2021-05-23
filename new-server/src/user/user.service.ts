@@ -5,6 +5,7 @@ import { CreateUserChatPayload, CreateUserPayload } from './user.payload';
 import { User, UserDocument } from './user.schema';
 import { transliterate as tr } from 'transliteration';
 import { Chat, ChatDocument } from 'src/chat/chat.schema';
+import { Message, MessageDocument } from 'src/message/message.schema';
 
 @Injectable()
 export class UserService {
@@ -12,6 +13,7 @@ export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Chat.name) private chatModel: Model<ChatDocument>,
+    @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
   ) {}
   async create(payload: CreateUserPayload): Promise<User> {
     return await this.userModel.create({
@@ -27,7 +29,19 @@ export class UserService {
     return await this.userModel.find();
   }
   async getOne(nickname: string): Promise<User> {
-    return await this.userModel.findOne({ nickname }).populate('chats');
+    return await this.userModel.findOne({ nickname }).populate({
+      path: 'chats',
+      populate: [
+        {
+          path: 'members',
+          model: 'User',
+        },
+        {
+          path: 'messages',
+          model: 'Message',
+        },
+      ],
+    });
   }
   async delete(id: ObjectId): Promise<UserDocument> {
     return await this.userModel.findByIdAndDelete(id);
@@ -35,8 +49,6 @@ export class UserService {
 
   async addUserChat(nickname: string, members: ObjectId[]) {
     const user = await this.userModel.findOne({ nickname });
-    //@ts-expect-error
-    this.logger.log(members.members);
 
     let chatMembers = [user._id];
 

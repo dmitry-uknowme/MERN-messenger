@@ -16,10 +16,16 @@ export class ChatMessageController {
   ) {
     return this.messageService.addChatMessage(id, payload);
   }
+
   @Get()
   getChatMessages(@Param('id') id: ObjectId) {
     return this.messageService.getChatMessages(id);
   }
+
+  // @Get(':msgId')
+  // getChatMessage(@Param('id') id: ObjectId ,@Param('msgId')) {
+  //   return this.messageService.getChatMessages(id);
+  // }
   getOne() {}
   delete() {}
 }

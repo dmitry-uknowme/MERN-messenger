@@ -17,9 +17,18 @@ export class ChatService {
       members: [],
     });
   }
-  async getAllOfUser(nickname: string): Promise<ChatDocument[]> {
-    //@ts-expect-error
-    return await this.chatModel.find({ members: [nickname] });
+  async getAll(): Promise<ChatDocument[]> {
+    return await this.chatModel.find();
+  }
+
+  async getOne(id: ObjectId): Promise<ChatDocument> {
+    return await this.chatModel.findById(id).populate([
+      {
+        path: 'members',
+        model: 'User',
+      },
+      { path: 'messages', model: 'Message' },
+    ]);
   }
   // async getOneOfUser(
   //   nickname: string,

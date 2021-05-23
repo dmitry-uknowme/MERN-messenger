@@ -2,49 +2,20 @@ import React, { useEffect, useState } from 'react';
 import styles from './login.module.sass';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import useActions from '../../hooks/useActions';
-import { setUserOnline } from '../../store/action-creators/user';
+
 import { useRouter } from 'next/router';
 
 const Login = () => {
 	const router = useRouter();
-	const { fetchUser } = useActions();
-	const [userInput, setUserInput] = useState('nikita-bayderin');
+	const { fetchUser, addChatMessage, setUserOnline } = useActions();
+	const [userInput, setUserInput] = useState('dima-bogatyrev');
 	const userData = useTypedSelector((state) => state.user);
 	const btnHandler = async () => {
 		await fetchUser(userInput);
+
 		await setUserOnline(true);
-		router.push('/chats');
+		await router.push('/chats');
 	};
-
-	// useEffect(() => {
-	// 	if (isOnline) {
-	// 		usedUsersHandler();
-	// 	}
-	// }, [isOnline, userChats, userFriends]);
-
-	// const btnHandler = async () => {
-	// 	await axios.get(`/users/${userInput}`).then((response) => dispatch(setUser(response.data)));
-	// 	dispatch(setIsOnline(true));
-	// };
-
-	// const usedUsersHandler = async () => {
-	// 	dispatch(clearUserFriends());
-	// 	await userFriends.map(async (friend) => {
-	// 		await axios.get(`/users/${friend}`).then((response) => {
-	// 			// console.log(response.data);
-	// 			dispatch(setUserFriends(response.data));
-	// 		});
-	// 	});
-
-	// 	await userChats.map(async (chat) => {
-	// 		await axios.get(`/users/${chat.id}`).then((response) => {
-	// 			dispatch(setUserChats({ id: chat.id, data: response.data }));
-	// 		});
-	// 	});
-
-	// 	await socket.emit('USER:JOIN', { userId: parseInt(userInput) });
-	// 	history.push('/friends');
-	// };
 
 	return (
 		<div className={styles.login}>

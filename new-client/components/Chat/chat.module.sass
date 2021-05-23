@@ -1,0 +1,67 @@
+.chat
+    border-radius: 20px 20px 0 0
+    height: 100%
+    position: relative
+    &__section
+        margin-top: 2%
+        height: 800px
+    &__header
+        height: 5%
+        display: flex
+        justify-content: center
+        align-items: center
+        height: 5%
+        background: #224b7a
+        color: #8eacc6
+        text-align: center
+        border-radius: 20px 20px 0 0
+        padding: 5px
+    &__messages
+        padding: 0 15px
+        background: #fff
+        height: 70%
+        overflow: auto
+    &__message
+        margin: 20px 5px
+        border: 2px solid
+        padding: 10px
+        width: fit-content
+        border-radius: 10px
+        &From
+            border-color: aqua
+            background: lighten(aqua,40%)
+            margin-right: auto
+
+        &To
+            border-color: lime
+            background: lighten(lime,40%)
+            margin-left: auto
+    &__input
+        background: #fff
+        display: flex
+        align-items: center
+        width: 100%
+        &Area
+            width: 93%
+            border-radius: 0 0 0 20px
+            border: 2px solid green
+            &:focus
+                outline: none
+        &Send
+            color: #224b7a
+            margin-left: 2%
+
+.message
+    &Enter
+        opacity: 0
+
+    &EnterActive
+        opacity: 1
+        transition: opacity 500ms ease-in
+
+    &Exit
+        opacity: 1
+
+    &Active
+        opacity: 0
+        transition: opacity 500ms ease-in

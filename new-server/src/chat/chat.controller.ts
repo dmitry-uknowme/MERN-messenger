@@ -11,18 +11,22 @@ import { ObjectId } from 'mongoose';
 import { ChangeChatTypePayload, CreateChatPayload } from './chat.payload';
 import { ChatService } from './chat.service';
 
-@Controller('/api/users/:nickname/chats')
+@Controller('/api/chats')
 export class ChatController {
   constructor(private chatService: ChatService) {}
   // @Post()
   // create(@Body() payload: CreateChatPayload) {
   //   return this.chatService.create(payload);
   // }
+  @Get()
+  getAll() {
+    return this.chatService.getAll();
+  }
 
-  // @Get()
-  // getAllOfUser(@Param('nickname') nickname: string) {
-  //   return this.chatService.getAllOfUser(nickname);
-  // }
+  @Get(':id')
+  getOne(@Param('id') id: ObjectId) {
+    return this.chatService.getOne(id);
+  }
 
   // @Get(':chatId')
   // getOneOfUser(

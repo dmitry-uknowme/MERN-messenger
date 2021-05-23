@@ -30,7 +30,7 @@ export class UserChatController {
   @Post()
   addUserChat(
     @Param('nickname') nickname: string,
-    @Body() members: ObjectId[],
+    @Body() members?: ObjectId[],
   ) {
     return this.userService.addUserChat(nickname, members);
   }

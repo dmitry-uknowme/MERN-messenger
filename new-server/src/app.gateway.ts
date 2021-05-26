@@ -1,12 +1,14 @@
 import { Logger } from '@nestjs/common';
 import {
+  ConnectedSocket,
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
   WsResponse,
 } from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
+import { Client } from 'socket.io/dist/client';
 import { Message } from './message/message.schema';
 
 @WebSocketGateway()
@@ -17,8 +19,16 @@ export class AppGateway {
 
   @SubscribeMessage('MESSAGE:SEND')
   async onMessageSend(@MessageBody() data: Message): Promise<any> {
-    this.logger.warn('dat', JSON.stringify(data));
     this.server.emit('MESSAGE:SENT', data);
+  }
+
+  @SubscribeMessage('CHAT:JOIN')
+  async onChatJoined(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() chat: string,
+  ) {
+    socket.join('chat-1');
+    socket.emit('CHAT:JOINED', { chat });
   }
 }
 

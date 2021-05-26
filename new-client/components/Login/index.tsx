@@ -14,6 +14,7 @@ const Login = () => {
 		await fetchUser(userInput);
 
 		await setUserOnline(true);
+		console.log('login user', userData);
 		await router.push('/chats');
 	};
 

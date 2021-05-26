@@ -23,17 +23,17 @@ const userReducer = (state = defaultState, action: UserAction | ChatAction) => {
 		case UserActionTypes.SET_USER_ONLINE:
 			return { ...state, isOnline: action.payload };
 
-		case ChatActionTypes.SET_CHAT_MESSAGES:
-			return {
-				...state,
-				chats: action.payload,
-			};
+		// case ChatActionTypes.SET_CHAT_MESSAGES:
+		// 	return {
+		// 		...state,
+		// 		chats: action.payload,
+		// 	};
 
-		case ChatActionTypes.ADD_CHAT_MESSAGE:
-			return {
-				...state,
-				chats: state.chats.map((chat) => (chat._id === action.payload.chatId ? { ...chat, messages: [...chat.messages, action.payload] } : '')),
-			};
+		// case ChatActionTypes.ADD_CHAT_MESSAGE:
+		// 	return {
+		// 		...state,
+		// 		chats: state.chats.map((chat) => (chat._id === action.payload.chatId ? { ...chat, messages: [...chat.messages, action.payload] } : '')),
+		// 	};
 
 		default:
 			return state;

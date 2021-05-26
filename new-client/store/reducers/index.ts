@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import userReducer from './userReducer';
 import { HYDRATE } from 'next-redux-wrapper';
+import chatReducer from './chatReducer';
 
 const rootReducer = combineReducers({
 	user: userReducer,
+	chat: chatReducer,
 });
 
 export const reducer = (state, action) => {

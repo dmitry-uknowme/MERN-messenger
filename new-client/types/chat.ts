@@ -5,17 +5,17 @@ export interface IChat {
 	_id: string;
 	type: string;
 	messages: IMessage[];
-	members: IUser[];
+	members?: IUser[];
 }
 
 export enum ChatActionTypes {
-	SET_CHAT_MESSAGES = 'SET_CHAT_MESSAGES',
+	FETCH_CHAT = 'FETCH_CHAT',
 	ADD_CHAT_MESSAGE = 'ADD_CHAT_MESSAGE',
 }
 
 interface SetChatMessagesAction {
-	type: ChatActionTypes.SET_CHAT_MESSAGES;
-	payload: MessagePayload;
+	type: ChatActionTypes.FETCH_CHAT;
+	payload: IChat;
 }
 interface AddChatMessageAction {
 	type: ChatActionTypes.ADD_CHAT_MESSAGE;

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import socket from '../../utils/socket';
 import SendIcon from '@material-ui/icons/Send';
@@ -11,19 +11,18 @@ import { IChat } from '../../types/chat';
 import useActions from '../../hooks/useActions';
 import axios from 'axios';
 
-const Chat = ({ chatId }) => {
+const Chat = ({ serverChat }) => {
+	const [chat, setChat] = useState<IChat>(serverChat);
 	const [message, setMessage] = useState('');
 	const userData: IUser = useTypedSelector(({ user }) => user);
-	const currentChat: IChat = useTypedSelector(({ user }) => user.chats.find((chat: IChat) => chat._id === chatId));
-	const { addChatMessage } = useActions();
-
+	const chatRef = useRef();
 	const isMessageEmpty = message.trim() === '';
-	const chatRef = useRef(null);
-	const chatMessages = currentChat.messages;
+	const chatMessages = chat.messages;
 
 	const msgClass = (msg: any) => cn(styles.chat__message, { [styles.chat__messageFrom]: msg.user === userData._id }, { [styles.chat__messageTo]: msg.user !== userData._id });
 
-	const scrollChat = (toPos: number | string) => {
+	const scrollChat = useCallback((toPos: number | string) => {
+		if (!chatRef.current) return false;
 		const chatEl = chatRef.current;
 		if (chatEl.scrollHeight <= chatEl.clientHeight) return false;
 
@@ -37,40 +36,55 @@ const Chat = ({ chatId }) => {
 		const scrollTimer = setInterval(() => {
 			const scrollPosition = (chatEl.scrollTop / (chatEl.scrollHeight - chatEl.clientHeight)) * 100;
 			if (scrollPosition === toPos) {
-				console.log('stop');
 				clearInterval(scrollTimer);
 			}
-			console.log('scrolling', scrollPosition, toPos);
 			chatEl.scrollBy(0, i);
 			i++;
 		}, 10);
+	}, []);
+
+	const chatName = () => {
+		if (!chat.members?.length) return 'Без названия';
+		if (chat.members.length > 2) {
+			let nameStr = '';
+			return chat.members.map((member: IUser) => nameStr + member.name + ' ' + member.surname).join();
+		}
+		const fullName = chat.members.find((member: IUser) => member._id !== userData._id);
+		return `${fullName.name} ${fullName.surname}`;
 	};
 
 	const sendMessage = async (e) => {
-		e.preventDefault();
 		if (isMessageEmpty) return false;
-		const response = await axios.post(`http://localhost:9000/api/chats/${currentChat._id}/messages`, { user: userData._id, text: message });
-		await socket.emit('MESSAGE:SEND', { ...response.data, chatId: currentChat._id });
+		const response = await axios.post(`http://localhost:9000/api/chats/${chat._id}/messages`, { user: userData._id, text: message });
+		await socket.emit('MESSAGE:SEND', { ...response.data, chatId: chat._id });
 	};
 
 	const onMessageSent = async () => {
-		socket.on('MESSAGE:SENT', async (data: MessagePayload) => {
-			await addChatMessage({ _id: data.chatId, user: data.user, text: data.text });
+		socket.on('MESSAGE:SENT', async (data) => {
+			console.log({ ...chat, messages: [...chat.messages, data] });
+			setChat((state: IChat) => ({ ...state, messages: [...state.messages, data] }));
+			// await addChatMessage({ _id: data.chatId, user: data.user, text: data.text });
+			//  messages: [...chat.messages, action.payload]
+			// chats: state.chats.map((chat) => (chat._id === action.payload.chatId ? { ...chat, messages: [...chat.messages, action.payload] } : '')));
 			await scrollChat('bottom');
-			// await setMessage('');
 		});
 	};
 
 	useEffect(() => {
+		chatRef.current = document.querySelector(`.${styles.chat__messages}`);
+		// socket.emit('CHAT:JOIN', { chat: chatId });
 		onMessageSent();
+		// socket.on('CHAT:JOINED', (data) => {
+		// 	console.error('data', data);
+		// });
 		setTimeout(() => scrollChat('bottom'), 0);
 	}, []);
 
 	return (
 		<section className={`${styles.chat__section} col-md-8 col-sm-9`}>
 			<div className={styles.chat}>
-				<div className={styles.chat__header}></div>
-				<div className={styles.chat__messages} ref={chatRef}>
+				<div className={styles.chat__header}>{chatName()}</div>
+				<div className={styles.chat__messages}>
 					<TransitionGroup>
 						{chatMessages?.map((msg) => (
 							<>

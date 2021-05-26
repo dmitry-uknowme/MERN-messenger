@@ -22,28 +22,26 @@ const Sidebar = () => {
 					<FiberNewIcon className={styles.sidebar__itemIcon}></FiberNewIcon>
 				</div>
 
-				<div className={styles.sidebar__item}>
-					<Link href='/chats'>
-						<>
-							<div className='sidebar__itemText'>Сообщения</div>
-							<SmsIcon className={styles.sidebar__itemIcon}></SmsIcon>
-						</>
-					</Link>
-				</div>
-				<div className={styles.sidebar__item}>
-					<Link href='/friends' className={styles.sidebar__item}>
-						<>
-							<div className='sidebar__itemText'>Друзья</div>
-							<GroupIcon className={styles.sidebar__itemIcon}></GroupIcon>
-						</>
-					</Link>
-				</div>
+				<Link href='/chats'>
+					<div className={styles.sidebar__item}>
+						<div className='sidebar__itemText'>Сообщения</div>
+						<SmsIcon className={styles.sidebar__itemIcon}></SmsIcon>
+					</div>
+				</Link>
+
+				<Link href='/friends'>
+					<div className={styles.sidebar__item}>
+						<div className='sidebar__itemText'>Друзья</div>
+						<GroupIcon className={styles.sidebar__itemIcon}></GroupIcon>
+					</div>
+				</Link>
+
 				{isAdmin && (
-					<Link href='/admin' className={styles.sidebar__item}>
-						<>
+					<Link href='/admin'>
+						<div className={styles.sidebar__item}>
 							<div className='sidebar__itemText'>Админ-панель</div>
 							<CodeIcon className={styles.sidebar__itemIcon}></CodeIcon>
-						</>
+						</div>
 					</Link>
 				)}
 			</div>

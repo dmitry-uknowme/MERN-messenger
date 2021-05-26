@@ -6,19 +6,27 @@ import styles from './chatList.module.sass';
 import useActions from '../../hooks/useActions';
 import { IChat } from '../../types/chat';
 import { IUser } from '../../types/user';
+import { IMessage } from '../../types/message';
 
-const Messenger = () => {
-	const { fetchUser, fetchUserChats, setUserOnline } = useActions();
+const ChatList = () => {
 	const userData: IUser = useTypedSelector(({ user }) => user);
-	const userChats = useTypedSelector(({ user }) => user.chats);
-
-	const lastMessage = (id: number) => {
+	const userChats: IChat[] = useTypedSelector(({ user }) => user.chats);
+	/* const userChats: IChat[] = useTypedSelector(({ user }) =>
+		user.chats.sort((a: IChat, b: IChat) =>
+			parseInt(a.messages[a.messages.length - 1].date) !== parseInt(b.messages[b.messages.length - 1].date)
+				? parseInt(a.messages[a.messages.length - 1].date) > parseInt(b.messages[b.messages.length - 1].date)
+					? -1
+					: 1
+				: 0
+		)
+	); */
+	const lastMessage = (id: string) => {
 		const currentChat = userChats.find((chat: IChat) => chat._id === id);
 		if (!currentChat.messages?.length) return 'У вас пока нет сообщений';
 		return currentChat.messages[currentChat.messages.length - 1].text;
 	};
 
-	const chatName = (id: number) => {
+	const chatName = (id: string) => {
 		const currentChat = userChats.find((chat: IChat) => chat._id === id);
 		if (!currentChat.members?.length) return 'Без названия';
 		if (currentChat.members.length > 2) {
@@ -33,17 +41,18 @@ const Messenger = () => {
 		<div className='chat-list__section col-md-8 col-sm-9'>
 			<div className={styles.chatList}>
 				<div className='col-md-12'>
-					{console.log(userChats)}
 					{userChats ? (
 						userChats.map(({ _id }) => (
-							<Link key={_id} className={styles.chatList__cardLink} href={`chats/${_id}`}>
-								<div className='card messenger__card'>
-									<div className='card-body messenger__card-body'>
-										<h5 className='card-title messenger__card-user'>
-											{chatName(_id)} <span className={styles.chatList__cardUser_status}>онлайн</span>
-										</h5>
+							<Link key={_id} href={`chats/${_id}`}>
+								<div className={styles.chatList__cardLink}>
+									<div className='card messenger__card'>
+										<div className='card-body messenger__card-body'>
+											<h5 className='card-title messenger__card-user'>
+												{chatName(_id)} <span className={styles.chatList__cardUser_status}>онлайн</span>
+											</h5>
 
-										<p className='card-text messenger__card-message'>{lastMessage(_id)}</p>
+											<p className='card-text messenger__card-message'>{lastMessage(_id)}</p>
+										</div>
 									</div>
 								</div>
 							</Link>
@@ -60,4 +69,4 @@ const Messenger = () => {
 	);
 };
 
-export default Messenger;
+export default ChatList;

@@ -29,19 +29,22 @@ export class UserService {
     return await this.userModel.find();
   }
   async getOne(nickname: string): Promise<User> {
-    return await this.userModel.findOne({ nickname }).populate({
-      path: 'chats',
-      populate: [
-        {
-          path: 'members',
-          model: 'User',
-        },
-        {
-          path: 'messages',
-          model: 'Message',
-        },
-      ],
-    });
+    return await this.userModel.findOne({ nickname }).populate([
+      { path: 'friends', model: 'User' },
+      {
+        path: 'chats',
+        populate: [
+          {
+            path: 'members',
+            model: 'User',
+          },
+          {
+            path: 'messages',
+            model: 'Message',
+          },
+        ],
+      },
+    ]);
   }
   async delete(id: ObjectId): Promise<UserDocument> {
     return await this.userModel.findByIdAndDelete(id);

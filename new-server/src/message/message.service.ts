@@ -13,6 +13,7 @@ export class MessageService {
     @InjectModel(Chat.name) private chatModel: Model<ChatDocument>,
   ) {}
   async addChatMessage(id: ObjectId, payload: CreateMessagePayload) {
+    this.logger.log(JSON.stringify(payload));
     const chat = await this.chatModel.findById(id).populate('messages');
     const message = await this.messageModel.create({
       ...payload,

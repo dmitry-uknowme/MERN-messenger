@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PauseIcon from '@material-ui/icons/Pause';
 import StopIcon from '@material-ui/icons/Stop';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import styles from './header.module.sass';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import useActions from '../../hooks/useActions';
 
 export const Header = () => {
+	const router = useRouter();
+
+	const logoutHandler = () => {
+		setUserOnline(false);
+		router.push('/login');
+	};
+
 	const userData = useTypedSelector((state) => state.user);
 	const [audioPlaying, setAudioPlaying] = useState({
 		playing: true,
@@ -18,6 +28,7 @@ export const Header = () => {
 		title: 'Аудио',
 	});
 	const [notifications, setNotifications] = useState<number>(/* (Math.random() * (20 - 1 - 0)).toFixed(0) */ 0);
+	const { setUserOnline } = useActions();
 	return (
 		<header className='header__section col-md-12'>
 			<div className={styles.header__container}>
@@ -31,7 +42,7 @@ export const Header = () => {
 						<SearchIcon className={styles.header__searchIcon} />
 						<input className={styles.header__searchInput} type='text' placeholder='Поиск друзей' />
 					</div>
-					<div className={styles.header__notifications} onClick={() => setNotifications((0 + Math.random() * (20 - 1 - 0)).toFixed(0))}>
+					<div className={styles.header__notifications} onClick={() => setNotifications(0 + Math.random() * (20 - 1 - 0)).toFixed(0)}>
 						<NotificationsIcon className={styles.header__noficationsIcon} />
 						<span className='header__noficationsCounter'>{notifications}</span>
 					</div>
@@ -63,7 +74,7 @@ export const Header = () => {
 						</div>
 					</div>
 					<div className={styles.header__profile}>
-						{userData.name} {userData.surname}
+						{userData.name} {userData.surname} <ExitToAppIcon onClick={logoutHandler} />
 					</div>
 				</div>
 			</div>

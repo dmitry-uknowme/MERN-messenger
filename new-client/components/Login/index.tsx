@@ -7,14 +7,12 @@ import { useRouter } from 'next/router';
 
 const Login = () => {
 	const router = useRouter();
-	const { fetchUser, addChatMessage, setUserOnline } = useActions();
+	const { fetchUser, setUserOnline } = useActions();
 	const [userInput, setUserInput] = useState('dima-bogatyrev');
 	const userData = useTypedSelector((state) => state.user);
 	const btnHandler = async () => {
 		await fetchUser(userInput);
-
 		await setUserOnline(true);
-		console.log('login user', userData);
 		await router.push('/chats');
 	};
 
@@ -33,7 +31,6 @@ const Login = () => {
 								Войти
 							</button>
 						</div>
-						{JSON.stringify(userData)}
 					</div>
 				</div>
 			</div>

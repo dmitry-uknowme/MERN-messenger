@@ -10,8 +10,9 @@ const WrappedApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 	const router = useRouter();
 	const isOnline = useTypedSelector((state) => state.user.isOnline);
 	useEffect(() => {
+		console.log('is online', isOnline);
 		if (!isOnline) router.push('/login');
-	}, []);
+	}, [isOnline]);
 	return <Component {...pageProps} />;
 };
 

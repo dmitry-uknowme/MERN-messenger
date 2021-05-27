@@ -2,8 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/chats/[id]": "pages/chats/[id].js",
-  "/chats": "pages/chats.js",
-  "/friends": "pages/friends.js",
-  "/login": "pages/login.js"
+  "/login": "pages/login.js",
+  "/posts": "pages/posts.js"
 }

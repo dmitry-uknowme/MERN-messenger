@@ -17,10 +17,13 @@ const Sidebar = () => {
 					<div className='sidebar__itemText'>Мой профиль</div>
 					<PersonIcon className={styles.sidebar__itemIcon}></PersonIcon>
 				</div>
-				<div className={styles.sidebar__item}>
-					<div className='sidebar__itemText'>Новости</div>
-					<FiberNewIcon className={styles.sidebar__itemIcon}></FiberNewIcon>
-				</div>
+
+				<Link href='/posts'>
+					<div className={styles.sidebar__item}>
+						<div className='sidebar__itemText'>Новости</div>
+						<FiberNewIcon className={styles.sidebar__itemIcon}></FiberNewIcon>
+					</div>
+				</Link>
 
 				<Link href='/chats'>
 					<div className={styles.sidebar__item}>

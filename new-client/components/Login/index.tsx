@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './login.module.sass';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import useActions from '../../hooks/useActions';
-
 import { useRouter } from 'next/router';
+import useModal from '../../hooks/useModal';
 
 const Login = () => {
 	const router = useRouter();
@@ -15,6 +15,8 @@ const Login = () => {
 		await setUserOnline(true);
 		await router.push('/chats');
 	};
+
+	console.log(useModal());
 
 	return (
 		<div className={styles.login}>

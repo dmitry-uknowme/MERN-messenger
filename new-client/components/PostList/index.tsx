@@ -7,8 +7,10 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ReplyIcon from '@material-ui/icons/Reply';
 import ClearIcon from '@material-ui/icons/Clear';
 import styles from './index.module.sass';
+import useModal from '../../hooks/useModal';
 
 const PostList = () => {
+	const { toggleModal } = useModal();
 	const [postInput, setPostInput] = useState<string>('');
 	const [fileInput, setFileInput] = useState<string[]>([]);
 	const inputFileRef = useRef();
@@ -20,6 +22,10 @@ const PostList = () => {
 	]);
 
 	const addPost = () => {
+		if (!postInput.trim() && !fileInput.length) {
+			toggleModal({ title: 'Новости', body: 'Новость не опубликована' });
+			return false;
+		}
 		setPosts((state) => [{ text: postInput, images: fileInput }, ...state]);
 		setPostInput('');
 		setFileInput([]);

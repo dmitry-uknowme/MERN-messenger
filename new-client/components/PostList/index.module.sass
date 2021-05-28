@@ -49,3 +49,18 @@
             margin-top: 10px
             display: flex
             justify-content: space-between
+
+.modal__window-enter
+    transform: translate(-50%, 100%)
+    &-active
+        transform: translate(-50%, -50%)
+        transition: all 0.2s
+
+.modal__window-exit
+    transform: translate(-50%, -50%)
+    transition: all 0.3s
+    &-active
+        transform: translate(-50%, -300%)
+
+.modal__overlay-enter
+    transform: scale(0)

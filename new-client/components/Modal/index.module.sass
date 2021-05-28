@@ -1,0 +1,35 @@
+.modal
+  display: block
+  &__overlay
+    background-color: rgba(0, 0, 0, 0.35)
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: 50
+
+  &__window
+    overflow-y: auto
+    max-height: 90%
+    transition: all 0.5s
+    border-radius: 30px
+    padding: 30px
+    padding-bottom: 40px
+    background: #fff
+    width: 60%
+    transition: all 0.8s
+    position: fixed
+    z-index: 100
+    left: 50%
+    top: 50%
+    transform: translate(-50%, -50%)
+    box-shadow: 0 0 10px 5px rgba(5, 181, 84, 0.9)
+    height: auto
+    max-height: 70%
+
+  &__body
+    margin-top: 15px
+
+  &__footer
+    margin-top: 20px

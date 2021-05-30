@@ -19,10 +19,10 @@ const Modal: React.FC<ModalProps> = ({ children }) => {
 	const { title, body, footer } = modalStatus;
 	return (
 		<div className={styles.modal}>
-			<CSSTransition in={isModalOpen} timeout={300} classNames={styles.modal__overlay} unmountOnExit>
+			<CSSTransition in={isModalOpen} timeout={300} classNames='modal__overlay' unmountOnExit>
 				<div className={styles.modal__overlay} onClick={toggleModal}></div>
 			</CSSTransition>
-			<CSSTransition in={isModalOpen} timeout={500} classNames={styles.modal__window} unmountOnExit>
+			<CSSTransition in={isModalOpen} timeout={500} classNames='modal__window' unmountOnExit>
 				<div className={styles.modal__window}>
 					<h1 className={styles.modal__header}>{title || 'Modal'}</h1>
 					<div className={styles.modal__body}>{children ? <> {children}</> : <p>{body}</p>}</div>

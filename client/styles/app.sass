@@ -11,3 +11,41 @@ input
     &::placeholder
         font-size: 14px
         color: #8eacc6
+
+.modal__window-enter
+    transform: translate(-50%, 100%) !important
+.modal__window-enter-active
+    transform: translate(-50%, -50%) !important
+    transition: all 0.2s !important
+.modal__window-exit
+    transform: translate(-50%, -50%) !important
+    transition: all 0.3s !important
+.modal__window-exit-active
+    transform: translate(-50%, -500%) !important
+
+.swiper-container
+    width: 100%
+    height: 100%
+
+.swiper-slide
+    text-align: center
+    font-size: 18px
+    background: #fff
+    display: -webkit-box
+    display: -ms-flexbox
+    display: -webkit-flex
+    display: flex
+    -webkit-box-pack: center
+    -ms-flex-pack: center
+    -webkit-justify-content: center
+    justify-content: center
+    -webkit-box-align: center
+    -ms-flex-align: center
+    -webkit-align-items: center
+    align-items: center
+
+    &img
+        display: block
+        width: 100%
+        height: 100%
+        object-fit: cover

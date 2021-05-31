@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Param,
   Post,
   Put,
@@ -25,6 +26,12 @@ export class AudioController {
   create(@UploadedFiles() files, @Body() payload: CreateAudioPayload) {
     return this.audioService.create(files, payload);
   }
+
+  @Get()
+  getAll() {
+    return this.audioService.getAll();
+  }
+
   @Put(':id/:type')
   update(@Param('id') id: ObjectId, @Param('type') type: string) {
     return this.audioService.update(id, type);

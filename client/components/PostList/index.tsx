@@ -1,41 +1,55 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import ClearIcon from '@material-ui/icons/Clear';
 import styles from './index.module.sass';
 import useModal from '../../hooks/useModal';
 import PostItem from './PostItem';
+import axios from 'axios';
+import socket from '../../utils/socket';
 
-const PostList = () => {
+const PostList = ({ serverPosts }) => {
 	const { toggleModal } = useModal();
 	const [postInput, setPostInput] = useState<string>('');
 	const [fileInput, setFileInput] = useState<string[]>([]);
+	const [files, setFiles] = useState<any>([]);
 	const inputFileRef = useRef();
-	const [posts, setPosts] = useState([
-		{
-			text: 'Всем привет! Как же хорошо на море!',
-			images: ['http://s1.fotokto.ru/photo/full/115/1151957.jpg'],
-		},
-	]);
+	const [posts, setPosts] = useState(serverPosts);
 
-	const addPost = () => {
+	const addPost = async () => {
 		if (!postInput.trim() && !fileInput.length) {
 			toggleModal({ title: 'Новости', body: 'Новость не опубликована' });
 			return false;
 		}
-		setPosts((state) => [{ text: postInput, images: fileInput }, ...state]);
+		const formData: FormData = await new FormData();
+		await formData.append('text', postInput);
+		await formData.append('image', files[0]);
+		const response = await axios.post('http://localhost:9000/api/posts', formData);
+		await socket.emit('POST:SEND', { ...response.data });
+
 		setPostInput('');
 		setFileInput([]);
+	};
+
+	const onPostAdded = async () => {
+		socket.on('POST:SENT', async (data) => {
+			setPosts((state) => [{ ...data }, ...state]);
+		});
 	};
 
 	const inputFileHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;
 		setFileInput(Array.from(files).map((file) => URL.createObjectURL(file)));
+		setFiles(files);
 	};
 
 	const removeInputFile = (file: string) => {
 		setFileInput((state) => state.filter((f) => f !== file));
 	};
+
+	useEffect(() => {
+		onPostAdded();
+	}, []);
 
 	return (
 		<section className={`${styles.postList__section} col-md-5 offset-md-1`}>
@@ -60,8 +74,8 @@ const PostList = () => {
 					</div>
 				</div>
 				<h2 className='post-list__header'>Новости</h2>
-				{posts.map(({ text, images }) => (
-					<PostItem text={text} images={images} />
+				{posts.map(({ text, image }) => (
+					<PostItem text={text} image={image} />
 				))}
 			</div>
 		</section>

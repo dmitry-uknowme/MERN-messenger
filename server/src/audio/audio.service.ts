@@ -25,7 +25,9 @@ export class AudioService {
       listens: 0,
     });
   }
-
+  async getAll() {
+    return await this.audioModel.find();
+  }
   async update(id: ObjectId, type: any) {
     const audio = await this.audioModel.findById(id);
 
@@ -43,10 +45,4 @@ export class AudioService {
     await audio.save();
     return audio;
   }
-
-  // async addListen(id: ObjectId) {
-  //   const audio = await this.audioModel.findById(id);
-  //   audio.listens++;
-  //   audio.save();
-  // }
 }

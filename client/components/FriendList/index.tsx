@@ -4,6 +4,7 @@ import styles from './friendList.module.sass';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import Link from 'next/link';
 import { IUser } from '../../types/user';
+import cn from 'classnames';
 
 const FriendList = () => {
 	const userFriends: IUser[] = useTypedSelector(({ user }) => user.friends.sort((a: IUser, b: IUser) => (a.name !== b.name ? (a.name < b.name ? -1 : 1) : 0)));
@@ -12,6 +13,8 @@ const FriendList = () => {
 	const findUsers = () => {
 		setFoundFriends(userFriends.filter((friend) => friend.name.includes(friendInput) || friend.surname.includes(friendInput)));
 	};
+
+	const statusClass = (status: boolean) => cn(styles.friendList__cardUserStatus, { [styles._online]: status });
 
 	useEffect(() => {
 		findUsers();
@@ -31,12 +34,12 @@ const FriendList = () => {
 							</div>
 						</div>
 					</div>
-					{foundFriends.map(({ _id, name, surname }) => (
+					{foundFriends.map(({ _id, name, surname, isOnline }) => (
 						<Link key={_id} href='/'>
 							<div className='card messenger__card'>
 								<div className='card-body messenger__card-body'>
 									<h5 className='card-title messenger__card-user'>
-										{name} {surname} <span className='messenger__card-user_status'>онлайн</span>
+										{name} {surname} <span className={statusClass(isOnline)}>{isOnline ? 'онлайн' : 'оффлайн'}</span>
 									</h5>
 								</div>
 							</div>

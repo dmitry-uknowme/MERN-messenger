@@ -22,6 +22,11 @@ export class AppGateway {
     this.server.emit('MESSAGE:SENT', data);
   }
 
+  @SubscribeMessage('POST:SEND')
+  async onPostSend(@MessageBody() data: Message): Promise<any> {
+    this.server.emit('POST:SENT', data);
+  }
+
   @SubscribeMessage('CHAT:JOIN')
   async onChatJoined(
     @ConnectedSocket() socket: Socket,

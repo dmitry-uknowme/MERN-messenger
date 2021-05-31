@@ -27,6 +27,9 @@ export class UserService {
       nickname: `${tr(payload.name)}-${tr(payload.surname)}`.toLowerCase(),
       friends: [],
       chats: [],
+      audios: [],
+      posts: [],
+      photos: [],
     });
   }
 

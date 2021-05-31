@@ -4,6 +4,7 @@ import { UserModule } from './user/user.module';
 import { ChatModule } from './chat/chat.module';
 import { MessageModule } from './message/message.module';
 import { AudioModule } from './audio/audio.module';
+import { PostModule } from './post/post.module';
 import { AppGateway } from './app.gateway';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
@@ -18,6 +19,7 @@ import * as path from 'path';
     ChatModule,
     MessageModule,
     AudioModule,
+    PostModule,
   ],
   providers: [AppGateway],
 })

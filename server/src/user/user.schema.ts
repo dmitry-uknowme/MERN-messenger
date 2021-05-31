@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Chat } from 'src/chat/chat.schema';
 import { Audio } from 'src/audio/audio.schema';
+import { Post } from 'src/post/post.schema';
 
 export type UserDocument = User & Document;
 
@@ -31,6 +32,9 @@ export class User {
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Audio' }] })
   audios: Audio[];
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }] })
+  posts: Post[];
 
   photos: string[];
 }

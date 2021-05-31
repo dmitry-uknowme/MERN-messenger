@@ -1,6 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ObjectId } from 'mongoose';
-import { CreateUserChatPayload, CreateUserPayload } from './user.payload';
+import {
+  CreateUserChatPayload,
+  CreateUserPayload,
+  UpdateUserTypePayload,
+} from './user.payload';
 import { UserService } from './user.service';
 
 @Controller('/api/users')
@@ -18,7 +30,14 @@ export class UserController {
   getOne(@Param('nickname') nickname: string) {
     return this.userService.getOne(nickname);
   }
-
+  @Put(':nickname/:type')
+  update(
+    @Param('nickname') nickname: string,
+    @Param('type') type: string,
+    @Body() payload: UpdateUserTypePayload,
+  ) {
+    return this.userService.update(nickname, type, payload);
+  }
   @Delete(':id')
   delete(@Param('id') id: ObjectId) {
     return this.userService.delete(id);

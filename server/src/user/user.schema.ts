@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Chat } from 'src/chat/chat.schema';
+import { Audio } from 'src/audio/audio.schema';
 
 export type UserDocument = User & Document;
 
@@ -27,6 +28,11 @@ export class User {
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }] })
   chats: Chat[];
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Audio' }] })
+  audios: Audio[];
+
+  photos: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

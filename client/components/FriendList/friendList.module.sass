@@ -1,4 +1,12 @@
 .friendList
+    &__section
+        margin-top: 2%
+        height: 80%
+        word-break: break-all
+        overflow-y: auto
+    &__header
+        display: flex
+        justify-content: space-around
     &__search
         padding: 10px 0
         position: relative
@@ -26,3 +34,19 @@
                 color: red
             &Status._online
                 color: green
+
+.friend__card
+    &Add
+        cursor: pointer
+        color: lime
+        position: absolute
+        top: 50%
+        right: 4%
+        transform: translateY(-50%)
+    &Remove
+        cursor: pointer
+        color: red
+        position: absolute
+        top: 50%
+        right: 4%
+        transform: translateY(-50%)

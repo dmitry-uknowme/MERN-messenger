@@ -12,28 +12,34 @@ export interface IUser {
 }
 
 export enum UserActionTypes {
-	FETCH_USER = 'FETCH_USER',
-	FETCH_USER_ERROR = 'FETCH_USER_ERROR',
-	FETCH_USER_CHATS = 'FETCH_USER_CHATS',
-	SET_USER_ONLINE = 'SET_USER_ONLINE',
+	FETCH = 'FETCH_USER',
+	FETCH_ERROR = 'FETCH_USER_ERROR',
+	ADD_FRIEND = 'ADD_FRIEND',
+	FETCH_CHATS = 'FETCH_USER_CHATS',
+	SET_ONLINE = 'SET_USER_ONLINE',
 }
 
 interface FetchUserAction {
-	type: UserActionTypes.FETCH_USER;
+	type: UserActionTypes.FETCH;
 	payload: IUser;
 }
 interface FetchUserErrorAction {
-	type: UserActionTypes.FETCH_USER_ERROR;
+	type: UserActionTypes.FETCH_ERROR;
 	payload: string;
 }
 
+interface AddFriendAction {
+	type: UserActionTypes.ADD_FRIEND;
+	payload: IUser;
+}
+
 interface FetchUserChatsAction {
-	type: UserActionTypes.FETCH_USER_CHATS;
+	type: UserActionTypes.FETCH_CHATS;
 	payload: IChat;
 }
 interface SetUserOnlineAction {
-	type: UserActionTypes.SET_USER_ONLINE;
+	type: UserActionTypes.SET_ONLINE;
 	payload: boolean;
 }
 
-export type UserAction = FetchUserAction | FetchUserErrorAction | FetchUserChatsAction | SetUserOnlineAction;
+export type UserAction = FetchUserAction | FetchUserErrorAction | AddFriendAction | FetchUserChatsAction | SetUserOnlineAction;

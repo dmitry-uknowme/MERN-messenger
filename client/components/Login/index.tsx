@@ -16,8 +16,6 @@ const Login = () => {
 		await router.push('/chats');
 	};
 
-	console.log(useModal());
-
 	return (
 		<div className={styles.login}>
 			<div className='container-fluid'>

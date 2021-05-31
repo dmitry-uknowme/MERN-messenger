@@ -14,14 +14,17 @@ const defaultState = {
 
 const userReducer = (state = defaultState, action: UserAction | ChatAction) => {
 	switch (action.type) {
-		case UserActionTypes.FETCH_USER:
+		case UserActionTypes.FETCH:
 			return action.payload;
 
-		case UserActionTypes.FETCH_USER_CHATS:
+		case UserActionTypes.FETCH_CHATS:
 			return { ...state, chats: action.payload };
 
-		case UserActionTypes.SET_USER_ONLINE:
+		case UserActionTypes.SET_ONLINE:
 			return { ...state, isOnline: action.payload };
+
+		case UserActionTypes.ADD_FRIEND:
+			return { ...state, chats: [...state.chats, action.payload] };
 
 		// case ChatActionTypes.SET_CHAT_MESSAGES:
 		// 	return {

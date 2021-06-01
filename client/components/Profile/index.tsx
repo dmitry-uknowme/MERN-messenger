@@ -23,62 +23,72 @@ const Profile = ({ serverProfile }) => {
 	}, [serverProfile]);
 
 	return (
-		<section className={`${styles.profile__section} col-md-5 offset-md-1`}>
+		<section className={`${styles.profile__section} col-md-7`}>
 			<div className={styles.profile}>
-				<div className={styles.profile__left}>
-					<img className={styles.profile__photo} src='/img/profile.jpg' />
-					<div className='profile__message'>{profile._id === userData._id ? 'Сменить фото' : 'Написать сообщение'}</div>
-				</div>
-				<div className={styles.profile__right}>
-					<div className='profile__info'>
-						<div className='profile__header'>
-							<h3 className='profile__name'>
-								{profile.name} {profile.surname}
-							</h3>
-						</div>
-						<div className={styles.profile__footer}>
-							<div className='profile__item'>
-								<div className={styles.profile__itemCount}>{profile.friends.length}</div>
-								<div className='profile__itemText'>Друзей</div>
+				<div className='col-md-12'>
+					<div className='container'>
+						<div className='row'>
+							<div className='col-md-4'>
+								<div className={styles.profile__left}>
+									<img className={styles.profile__photo} src='/img/profile.jpg' />
+									<div className={styles.profile__btn}>{profile._id === userData._id ? 'Сменить фото' : 'Написать сообщение'}</div>
+								</div>
 							</div>
-							<div className='profile__item'>
-								<div className={styles.profile__itemCount}>100</div>
-								<div className='profile__itemText'>Аудио</div>
-							</div>
-							<div className='profile__item'>
-								<div className={styles.profile__itemCount}>10</div>
-								<div className='profile__itemText'>Фото</div>
-							</div>
-						</div>
-					</div>
-					<div className='profile__list friendList'>
-						<button className='friendList__prev' ref={prevBtn}>
-							Назад
-						</button>
-						<button className='friendList__prev' ref={nextBtn}>
-							Вперед
-						</button>
-						<Swiper
-							allowTouchMove={false}
-							slidesPerView={4}
-							onInit={(swiper) => {
-								swiper.params.navigation.prevEl = prevBtn.current;
-								swiper.params.navigation.nextEl = nextBtn.current;
-								swiper.navigation.init();
-								swiper.navigation.update();
-							}}>
-							{profile.friends.map(({ _id, name, surname, nickname }) => (
-								<SwiperSlide key={_id} style={{ cursor: 'pointer', padding: 10 }}>
-									<Link href={`/profile/${nickname}`}>
-										<div className='friendList__slide'>
-											<div className={styles.friendList__slideProfile} />
-											{name} <br />
-											{surname}
+							<div className='col-md-8'>
+								<div className={styles.profile__right}>
+									<div className='profile__info'>
+										<div className='profile__header'>
+											<h3 className='profile__name'>
+												{profile.name} {profile.surname}
+											</h3>
 										</div>
-									</Link>
-								</SwiperSlide>
-							))}
-						</Swiper>
+										<div className={styles.profile__footer}>
+											<div className='profile__item'>
+												<div className={styles.profile__itemCount}>{profile.friends.length}</div>
+												<div className='profile__itemText'>Друзей</div>
+											</div>
+											<div className='profile__item'>
+												<div className={styles.profile__itemCount}>100</div>
+												<div className='profile__itemText'>Аудио</div>
+											</div>
+											<div className='profile__item'>
+												<div className={styles.profile__itemCount}>10</div>
+												<div className='profile__itemText'>Фото</div>
+											</div>
+										</div>
+									</div>
+									<div className='profile__list friendList'>
+										<button className='friendList__prev' ref={prevBtn}>
+											Назад
+										</button>
+										<button className='friendList__prev' ref={nextBtn}>
+											Вперед
+										</button>
+										<Swiper
+											allowTouchMove={false}
+											slidesPerView={4}
+											onInit={(swiper) => {
+												swiper.params.navigation.prevEl = prevBtn.current;
+												swiper.params.navigation.nextEl = nextBtn.current;
+												swiper.navigation.init();
+												swiper.navigation.update();
+											}}>
+											{profile.friends.map(({ _id, name, surname, nickname }) => (
+												<SwiperSlide key={_id} style={{ cursor: 'pointer', padding: 10, width: `${25}%` }}>
+													<Link href={`/profile/${nickname}`}>
+														<div className='friendList__slide'>
+															<div className={styles.friendList__slideProfile} />
+															{name} <br />
+															{surname}
+														</div>
+													</Link>
+												</SwiperSlide>
+											))}
+										</Swiper>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

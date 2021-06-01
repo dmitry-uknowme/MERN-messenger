@@ -37,7 +37,8 @@ export const Header = () => {
 				<div className={styles.header}>
 					<Link href='/'>
 						<div className={styles.header__logo}>
-							<Image src='/img/vk.svg' alt='Picture of the author' width={30} height={30} />
+							<b>MESSENGER</b>
+							{/* <Image src='/img/vk.svg' alt='Picture of the author' width={30} height={30} /> */}
 						</div>
 					</Link>
 					<div className={styles.header__search}>

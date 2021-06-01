@@ -55,7 +55,10 @@ const Login = ({ serverUsers }) => {
 					</div>
 					{registration && (
 						<Swiper
+							onSlideChange={(swiper) => console.log(swiper.realIndex)}
 							// slidesPerView={1}
+							// navigation
+
 							pagination={{ type: 'fraction' }}
 							style={{ height: 400, marginTop: 90 }}
 							onInit={(swiper) => {
@@ -99,7 +102,7 @@ const Login = ({ serverUsers }) => {
 								<label htmlFor='exampleInputEmail1' className='form-label' style={{ marginLeft: 'auto' }}>
 									Добавьте знакомых друзей:
 								</label>
-								<Swiper navigation slidesPerView={6} style={{ width: `${60}%` }}>
+								{/* <Swiper navigation slidesPerView={6} style={{ width: `${60}%` }}>
 									{serverUsers.map(({ _id, name, surname }) => (
 										<SwiperSlide key={_id} style={{ cursor: 'pointer', padding: 10 }}>
 											<div className='friendList__slide'>
@@ -111,11 +114,14 @@ const Login = ({ serverUsers }) => {
 									))}
 
 									<button>Добавить</button>
-								</Swiper>
+								</Swiper> */}
 							</SwiperSlide>
 							<h2 slot='container-end' style={{ position: 'absolute', zIndex: 100, top: `${2}%`, left: `${50}%`, transform: 'translateX(-50%)' }}>
 								Регистрация
 							</h2>
+							{/* <button ref={prevBtn} style={{ position: 'absolute', zIndex: 100, bottom: `${20}%`, left: `${2}%`, transform: 'translateY(-50%)' }}>
+								Prev
+							</button> */}
 							<button slot='container-end' className='btn btn-danger' style={{ position: 'absolute', zIndex: 100, bottom: `${20}%`, left: `${2}%`, transform: 'translateY(-50%)' }} ref={prevBtn}>
 								Назад
 							</button>

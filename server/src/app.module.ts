@@ -19,7 +19,7 @@ import * as path from 'path';
     ChatModule,
     MessageModule,
     AudioModule,
-    PostModule,
+    // PostModule,
   ],
   providers: [AppGateway],
 })

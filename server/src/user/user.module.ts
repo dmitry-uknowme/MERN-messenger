@@ -14,5 +14,6 @@ import { UserService } from './user.service';
     MongooseModule.forFeature([{ name: Chat.name, schema: ChatSchema }]),
     MongooseModule.forFeature([{ name: Message.name, schema: MessageSchema }]),
   ],
+  exports: [UserService],
 })
 export class UserModule {}

@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import { FileService, FileType } from 'src/file/file.service';
+import { User, UserDocument } from 'src/user/user.schema';
 import { CreatePostPayload } from './post.payload';
 import { PostDocument, Post } from './post.schema';
 
@@ -9,6 +10,7 @@ import { PostDocument, Post } from './post.schema';
 export class PostService {
   constructor(
     @InjectModel(Post.name) private postModel: Model<PostDocument>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
     private fileService: FileService,
   ) {}
 
@@ -23,24 +25,14 @@ export class PostService {
       replies: 0,
       date: Date.now().toString(),
     });
-    // if (image) {
-    //   const imagePath = await this.fileService.create(FileType.IMAGE, image);
-    //   post.image = imagePath;
-    // }
+
+    const user = await this.userModel.findOne({ nickname: payload.user });
+    user.posts.push(post._id);
+
     return post;
   }
 
   async getAll() {
     return await this.postModel.find();
   }
-
-  // async update(id: ObjectId, type: any) {
-  //   const audio = await this.audioModel.findById(id);
-
-  //   if (type === 'listen') {
-  //     audio.listens++;
-  //   }
-  //   await audio.save();
-  //   return audio;
-  // }
 }

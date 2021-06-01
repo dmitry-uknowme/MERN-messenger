@@ -17,8 +17,8 @@ export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Chat.name) private chatModel: Model<ChatDocument>,
-    @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
-  ) {}
+  ) // @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
+  {}
   async create(payload: CreateUserPayload): Promise<User> {
     return await this.userModel.create({
       ...payload,
@@ -53,7 +53,7 @@ export class UserService {
       payload.audios.map((audio) => user.friends.push(audio));
     } else if (type === 'photos') {
       //@ts-expect-error
-      payload.audios.map((audio) => user.friends.push(audio));
+      payload.photos.map((audio) => user.friends.push(audio));
     }
     await user.save();
     return user;

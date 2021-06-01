@@ -22,6 +22,7 @@ export class UserController {
   create(@Body() payload: CreateUserPayload) {
     return this.userService.create(payload);
   }
+
   @Get()
   getAll() {
     return this.userService.getAll();

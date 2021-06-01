@@ -56,7 +56,7 @@ const FriendList = ({ serverAllUsers }) => {
 		addUserFriend(user);
 		// setFoundFriends((state) => [...state, allUsers.find((user) => user._id === id)]);
 		// setAllUsers((state) => [...state, state.find((user) => user._id === id)]);
-		toggleModal({ title: 'Друзья', body: 'Заявка на добавление в друзья отправлена' });
+		// toggleModal({ title: 'Друзья', body: 'Заявка на добавление в друзья отправлена' });
 	};
 
 	useEffect(() => {

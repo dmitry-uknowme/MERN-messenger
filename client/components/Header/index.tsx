@@ -12,13 +12,15 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import styles from './header.module.sass';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import useActions from '../../hooks/useActions';
+import { signOut } from 'next-auth/client';
 
 export const Header = () => {
 	const router = useRouter();
 
 	const logoutHandler = () => {
 		setUserOnline(false);
-		router.push('/login');
+		signOut();
+		// router.push('/login');
 	};
 
 	const userData = useTypedSelector((state) => state.user);

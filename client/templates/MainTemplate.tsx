@@ -14,7 +14,7 @@ const MainTemplate = ({ children, title }) => {
 			</Head>
 
 			<div className='app'>
-				<Modal />
+				{/* <Modal /> */}
 				<div className='container-fluid h-100 p-0'>
 					<div className='row h-100 app__row'>
 						<Header />

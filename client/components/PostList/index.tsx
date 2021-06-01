@@ -18,7 +18,7 @@ const PostList = ({ serverPosts }) => {
 
 	const addPost = async () => {
 		if (!postInput.trim() && !fileInput.length) {
-			toggleModal({ title: 'Новости', body: 'Новость не опубликована' });
+			// toggleModal({ title: 'Новости', body: 'Новость не опубликована' });
 			return false;
 		}
 		const formData: FormData = await new FormData();

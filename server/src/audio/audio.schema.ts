@@ -1,15 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
+import { Document } from 'mongoose';
 import { User } from 'src/user/user.schema';
 
 export type AudioDocument = Audio & Document;
 
 @Schema()
 export class Audio {
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
-  user: User;
-
   @Prop()
   artist: string;
 
@@ -24,6 +21,9 @@ export class Audio {
 
   @Prop()
   listens: number;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  user: User;
 }
 
 export const AudioSchema = SchemaFactory.createForClass(Audio);

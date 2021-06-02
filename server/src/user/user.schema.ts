@@ -36,6 +36,7 @@ export class User {
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }] })
   posts: Post[];
 
+  @Prop()
   photos: string[];
 }
 

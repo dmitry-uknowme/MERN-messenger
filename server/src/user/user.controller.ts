@@ -6,7 +6,10 @@ import {
   Param,
   Post,
   Put,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ObjectId } from 'mongoose';
 import {
   CreateUserChatPayload,
@@ -22,7 +25,6 @@ export class UserController {
   create(@Body() payload: CreateUserPayload) {
     return this.userService.create(payload);
   }
-
   @Get()
   getAll() {
     return this.userService.getAll();
@@ -70,5 +72,15 @@ export class UserChatController {
     @Param('id') id: ObjectId,
   ) {
     return this.userService.deleteUserChat(nickname, id);
+  }
+}
+
+@Controller('/api/users/:nickname/photos')
+export class UserPhotoController {
+  constructor(private userService: UserService) {}
+  @Post()
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'image', maxCount: 1 }]))
+  addUserPhoto(@UploadedFiles() files, @Param('nickname') nickname: string) {
+    this.userService.addUserPhoto(nickname, files);
   }
 }

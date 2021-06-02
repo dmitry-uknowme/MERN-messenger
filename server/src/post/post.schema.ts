@@ -7,9 +7,6 @@ export type PostDocument = Post & Document;
 
 @Schema()
 export class Post {
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
-  user: User;
-
   @Prop()
   text: string;
 
@@ -27,6 +24,9 @@ export class Post {
 
   @Prop()
   date: string;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  user: User;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

@@ -10,6 +10,7 @@ import { User, UserDocument } from './user.schema';
 import { transliterate as tr } from 'transliteration';
 import { Chat, ChatDocument } from 'src/chat/chat.schema';
 import { Message, MessageDocument } from 'src/message/message.schema';
+import { FileService, FileType } from 'src/file/file.service';
 
 @Injectable()
 export class UserService {
@@ -17,8 +18,8 @@ export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Chat.name) private chatModel: Model<ChatDocument>,
-  ) // @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
-  {}
+    private fileService: FileService,
+  ) {}
   async create(payload: CreateUserPayload): Promise<User> {
     return await this.userModel.create({
       ...payload,
@@ -53,7 +54,7 @@ export class UserService {
       payload.audios.map((audio) => user.friends.push(audio));
     } else if (type === 'photos') {
       //@ts-expect-error
-      payload.photos.map((audio) => user.friends.push(audio));
+      payload.audios.map((audio) => user.friends.push(audio));
     }
     await user.save();
     return user;
@@ -99,6 +100,15 @@ export class UserService {
     user.chats.push(chat._id);
     await user.save();
     return chat;
+  }
+
+  async addUserPhoto(nickname: string, files) {
+    const { image } = files;
+    const imagePath = this.fileService.create(FileType.IMAGE, image);
+    const user = await this.userModel.findOne({ nickname });
+    user.photos.push(imagePath);
+    await user.save();
+    return user;
   }
 
   async getUserChats(nickname: string) {

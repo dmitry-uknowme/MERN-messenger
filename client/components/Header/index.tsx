@@ -23,11 +23,15 @@ export const Header = () => {
 		// router.push('/login');
 	};
 
+	const audioHandler = () => {
+		setAudioPlaying((state) => ({ ...state, playing: !audioPlaying.playing }));
+	};
+
 	const userData = useTypedSelector((state) => state.user);
 	const [audioPlaying, setAudioPlaying] = useState({
 		playing: true,
-		artist: 'Автор',
-		title: 'Аудио',
+		artist: userData.audios[0].artist,
+		title: userData.audios[0].title,
 	});
 	const [notifications, setNotifications] = useState<number>(/* (Math.random() * (20 - 1 - 0)).toFixed(0) */ 0);
 	const { setUserOnline } = useActions();
@@ -51,20 +55,7 @@ export const Header = () => {
 					</div>
 					<div className={styles.header__audio}>
 						<SkipPreviousIcon className='header__audioPrev' />
-						{audioPlaying['playing'] ? (
-							<PauseIcon className={styles.header__audioPause} onClick={() => setAudioPlaying({ playing: false })} />
-						) : (
-							<StopIcon
-								className={styles.header__audioStop}
-								onClick={() =>
-									setAudioPlaying({
-										playing: true,
-										artist: 'Audio1',
-										title: 'Audio1',
-									})
-								}
-							/>
-						)}
+						{audioPlaying['playing'] ? <PauseIcon className={styles.header__audioPause} onClick={audioHandler} /> : <StopIcon className={styles.header__audioStop} onClick={audioHandler} />}
 						<SkipNextIcon className='header__audioNext' />
 						<div className={styles.header__audioPlaying}>
 							{audioPlaying ? (

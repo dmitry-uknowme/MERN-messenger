@@ -23,11 +23,11 @@ export class PostService {
       date: Date.now().toString(),
     });
 
-    if (files.image) {
-      const { image } = files;
-      const imagePath = await this.fileService.create(FileType.IMAGE, image);
-      post.image = imagePath;
-    }
+    // if (files.image) {
+    //   const { image } = files;
+    //   const imagePath = await this.fileService.create(FileType.IMAGE, image);
+    //   post.image = imagePath;
+    // }
 
     if (payload.user) {
       // const user = await this.userModel.findOne({ nickname: payload.user });

@@ -9,6 +9,9 @@ export interface IUser {
 	nickname: string | null;
 	chats: IChat[] | [];
 	friends: IUser[] | [];
+	photos: string[];
+	posts: any[];
+	audios: any[];
 }
 
 export enum UserActionTypes {

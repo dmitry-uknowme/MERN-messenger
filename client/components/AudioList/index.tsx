@@ -1,11 +1,19 @@
 import { Tab, Tabs } from '@material-ui/core';
 import { useState } from 'react';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { IUser } from '../../types/user';
+import AudioItem from './AudioItem';
 import styles from './index.module.sass';
 
-const AudioList = () => {
+const AudioList = ({ serverAudios }) => {
+	const userData: IUser = useTypedSelector(({ user }) => user);
 	const [tab, setTab] = useState('all');
-	const [audios, setAudios] = useState();
-	const tabHandler = (e, value) => setTab(value);
+	const [audios, setAudios] = useState(serverAudios);
+	const [myAudios, setMyAudios] = useState(userData.audios);
+
+	const tabHandler = (e, value) => {
+		setTab(value);
+	};
 
 	return (
 		<section className='audioList__section col-md-6'>
@@ -19,46 +27,19 @@ const AudioList = () => {
 				</div>
 				<div className='container'>
 					<div className='row'>
-						<div className='col-md-3'>
-							<div className={styles.audio__card}>
-								<div className={styles.audio__bg} style={{ background: 'url(http://localhost:9000/image/0daf63d5-deb8-4b99-959d-83242e9d0611.jpg)' }}></div>
-								<div className='audio__play'></div>
-								<div className='audio__add'></div>
-								<div className='audio__share'></div>
-								<div className='audio__artist'>Михаил Шуфутинский</div>
-								<div className='audio__name'>3-е сентября</div>
-							</div>
-						</div>
-						<div className='col-md-3'>
-							<div className={styles.audio__card}>
-								<div className={styles.audio__bg} style={{ background: 'url(http://localhost:9000/image/0daf63d5-deb8-4b99-959d-83242e9d0611.jpg)' }}></div>
-								<div className='audio__play'></div>
-								<div className='audio__add'></div>
-								<div className='audio__share'></div>
-								<div className='audio__artist'>Михаил Шуфутинский</div>
-								<div className='audio__name'>3-е сентября</div>
-							</div>
-						</div>
-						<div className='col-md-3'>
-							<div className={styles.audio__card}>
-								<div className={styles.audio__bg} style={{ background: 'url(http://localhost:9000/image/0daf63d5-deb8-4b99-959d-83242e9d0611.jpg)' }}></div>
-								<div className='audio__play'></div>
-								<div className='audio__add'></div>
-								<div className='audio__share'></div>
-								<div className='audio__artist'>Михаил Шуфутинский</div>
-								<div className='audio__name'>3-е сентября</div>
-							</div>
-						</div>
-						<div className='col-md-3'>
-							<div className={styles.audio__card}>
-								<div className={styles.audio__bg} style={{ background: 'url(http://localhost:9000/image/0daf63d5-deb8-4b99-959d-83242e9d0611.jpg)' }}></div>
-								<div className='audio__play'></div>
-								<div className='audio__add'></div>
-								<div className='audio__share'></div>
-								<div className='audio__artist'>Михаил Шуфутинский</div>
-								<div className='audio__name'>3-е сентября</div>
-							</div>
-						</div>
+						{tab === 'all'
+							? audios?.map((audio) => (
+									<div className='col-md-3' style={{ marginTop: 90 }}>
+										<AudioItem audio={audio} />
+									</div>
+							  ))
+							: tab === 'my'
+							? myAudios?.map((audio) => (
+									<div className='col-md-3' style={{ marginTop: 90 }}>
+										<AudioItem audio={audio} />
+									</div>
+							  ))
+							: ''}
 					</div>
 				</div>
 			</div>

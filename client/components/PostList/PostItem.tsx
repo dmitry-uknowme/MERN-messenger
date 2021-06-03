@@ -5,7 +5,9 @@ import ReplyIcon from '@material-ui/icons/Reply';
 
 import styles from './index.module.sass';
 
-const PostItem = ({ text, image }) => {
+const PostItem = ({ post }) => {
+	const { text, image } = post;
+
 	return (
 		<div className={styles.postList__item}>
 			<div className='post-list__item-header'>

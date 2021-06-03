@@ -66,6 +66,8 @@ export class UserService {
   async getOne(nickname: string): Promise<User> {
     return await this.userModel.findOne({ nickname }).populate([
       { path: 'friends', model: 'User' },
+      { path: 'audios', model: 'Audio' },
+      { path: 'posts', model: 'Post' },
       {
         path: 'chats',
         populate: [
@@ -104,11 +106,13 @@ export class UserService {
 
   async addUserPhoto(nickname: string, files) {
     const { image } = files;
+    console.log(image);
     const imagePath = this.fileService.create(FileType.IMAGE, image);
-    const user = await this.userModel.findOne({ nickname });
+    // const user = await this.userModel.findOne({ nickname });
+    const user = await this.userModel.findById(nickname);
     user.photos.push(imagePath);
     await user.save();
-    return user;
+    return imagePath;
   }
 
   async getUserChats(nickname: string) {

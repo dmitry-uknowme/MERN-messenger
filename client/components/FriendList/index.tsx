@@ -10,6 +10,8 @@ import Link from 'next/link';
 import { IUser } from '../../types/user';
 import cn from 'classnames';
 import { Tab, Tabs } from '@material-ui/core';
+import socket from '../../utils/socket';
+import axios from 'axios';
 
 const FriendList = ({ serverAllUsers }) => {
 	const { addUserFriend } = useActions();
@@ -51,12 +53,15 @@ const FriendList = ({ serverAllUsers }) => {
 
 	const statusClass = (status: boolean) => cn(styles.friendList__cardUserStatus, { [styles._online]: status });
 
-	const addFriend = (id: string) => {
+	const addFriend = async (id: string) => {
 		const user = allUsers.find((user) => user._id === id);
-		addUserFriend(user);
+		const response = await axios.post('http://localhost:9000/api/posts', { text: `${userData.name} ${userData.surname} хочет добавить в друзья ${user.name} ${user.surname}` });
+		await socket.emit('POST:SEND', { ...response.data });
+
+		// addUserFriend(user);
 		// setFoundFriends((state) => [...state, allUsers.find((user) => user._id === id)]);
 		// setAllUsers((state) => [...state, state.find((user) => user._id === id)]);
-		// toggleModal({ title: 'Друзья', body: 'Заявка на добавление в друзья отправлена' });
+		toggleModal({ title: 'Друзья', body: 'Заявка на добавление в друзья отправлена' });
 	};
 
 	useEffect(() => {

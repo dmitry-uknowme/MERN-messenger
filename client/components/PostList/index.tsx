@@ -74,8 +74,8 @@ const PostList = ({ serverPosts }) => {
 					</div>
 				</div>
 				<h2 className='post-list__header'>Новости</h2>
-				{posts.map(({ text, image }) => (
-					<PostItem text={text} image={image} />
+				{posts?.map((post) => (
+					<PostItem post={post} />
 				))}
 			</div>
 		</section>

@@ -49,3 +49,41 @@ input
         width: 100%
         height: 100%
         object-fit: cover
+
+.login__section
+    .swiper-button-prev, .swiper-button-next
+        top: 90% !important
+    .swiper-button-next
+        color: lime
+        position: absolute
+        z-index: 100
+        bottom: 20% !important
+        right: 2%
+        transform: translateY(-50%)
+        color: #fff
+        background-color: #198754
+        border-color: #198754
+        width: 80px
+        height: 38px
+        border-radius: 5px
+        &::after
+            content: "Дальше"
+            font-size: 15px
+            font-family: Arial
+    .swiper-button-prev
+        color: lime
+        position: absolute
+        z-index: 100
+        bottom: 20% !important
+        left: 2%
+        transform: translateY(-50%)
+        color: #fff
+        background-color: #dc3545
+        border-color: #dc3545
+        width: 80px
+        height: 38px
+        border-radius: 5px
+        &::after
+            content: "Назад"
+            font-size: 15px
+            font-family: Arial

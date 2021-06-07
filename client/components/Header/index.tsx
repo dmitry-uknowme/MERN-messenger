@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -24,15 +24,26 @@ export const Header = () => {
 	};
 
 	const audioHandler = () => {
-		setAudioPlaying((state) => ({ ...state, playing: !audioPlaying.playing }));
+		setAudioPlayer((state) => ({ ...state, playing: !audioPlayer.playing }));
 	};
 
 	const userData = useTypedSelector((state) => state.user);
-	const [audioPlaying, setAudioPlaying] = useState({
+	const [audioPlayer, setAudioPlayer] = useState({
 		playing: true,
-		artist: userData.audios[0].artist,
-		title: userData.audios[0].title,
+		artist: 'Исполнитель',
+		title: 'Композиция',
 	});
+
+	useEffect(() => {
+		if (userData?.audios?.length) {
+			setAudioPlayer((state) => ({
+				...state,
+				artist: userData.audios[0].artist,
+				title: userData.audios[0].title,
+			}));
+		}
+	}, []);
+
 	const [notifications, setNotifications] = useState<number>(/* (Math.random() * (20 - 1 - 0)).toFixed(0) */ 0);
 	const { setUserOnline } = useActions();
 	return (
@@ -55,12 +66,12 @@ export const Header = () => {
 					</div>
 					<div className={styles.header__audio}>
 						<SkipPreviousIcon className='header__audioPrev' />
-						{audioPlaying['playing'] ? <PauseIcon className={styles.header__audioPause} onClick={audioHandler} /> : <StopIcon className={styles.header__audioStop} onClick={audioHandler} />}
+						{audioPlayer['playing'] ? <PauseIcon className={styles.header__audioPause} onClick={audioHandler} /> : <StopIcon className={styles.header__audioStop} onClick={audioHandler} />}
 						<SkipNextIcon className='header__audioNext' />
-						<div className={styles.header__audioPlaying}>
-							{audioPlaying ? (
+						<div className={styles.header__audioPlayer}>
+							{audioPlayer ? (
 								<>
-									{audioPlaying['artist']} - {audioPlaying['title']}
+									{audioPlayer['artist']} - {audioPlayer['title']}
 								</>
 							) : (
 								''

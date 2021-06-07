@@ -20,8 +20,9 @@ export class UserService {
     @InjectModel(Chat.name) private chatModel: Model<ChatDocument>,
     private fileService: FileService,
   ) {}
-  async create(payload: CreateUserPayload): Promise<User> {
-    return await this.userModel.create({
+  async create(payload: CreateUserPayload, files): Promise<User> {
+    console.log('payload', payload);
+    const user = await this.userModel.create({
       ...payload,
       isOnline: false,
       isAdmin: false,
@@ -32,6 +33,31 @@ export class UserService {
       posts: [],
       photos: [],
     });
+
+    if (files.image) {
+      const { image } = files;
+      const imagePath = await this.fileService.create(FileType.IMAGE, image);
+      user.photos.push(imagePath);
+    }
+    if (payload.image) {
+      user.photos.push(payload.image);
+    }
+    if (payload.password) {
+      user.password = payload.password;
+    }
+    if (payload.friends) {
+      //@ts-expect-error
+      console.log('parsed', JSON.parse(payload.friends));
+      //@ts-expect-error
+      JSON.parse(payload.friends).map((friend) => user.friends.push(friend));
+    }
+
+    if (payload.nickname) {
+      user.nickname = payload.nickname;
+    }
+
+    await user.save();
+    return user;
   }
 
   async update(nickname: string, type: any, payload: UpdateUserTypePayload) {

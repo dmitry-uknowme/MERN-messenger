@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Modal from '../components/Modal';
 const FullscreenTemplate = ({ children, title }) => {
 	return (
 		<>
@@ -11,6 +12,7 @@ const FullscreenTemplate = ({ children, title }) => {
 			</Head>
 
 			<div className='app'>
+				<Modal />
 				<div className='container-fluid h-100 p-0'>
 					<div className='row h-100 app__row'>{children}</div>
 				</div>

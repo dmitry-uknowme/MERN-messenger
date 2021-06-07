@@ -33,6 +33,7 @@ export class AudioService {
     if (payload.user) {
       // const user = await this.userModel.findOne({ nickname: payload.user });
       const user = await this.userModel.findById(payload.user);
+      console.log('user', user);
       audio.user = user._id;
       user.audios.push(audio._id);
       await user.save();

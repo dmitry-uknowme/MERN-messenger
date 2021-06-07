@@ -21,9 +21,10 @@ import { UserService } from './user.service';
 @Controller('/api/users')
 export class UserController {
   constructor(private userService: UserService) {}
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'image', maxCount: 1 }]))
   @Post()
-  create(@Body() payload: CreateUserPayload) {
-    return this.userService.create(payload);
+  create(@UploadedFiles() files, @Body() payload: CreateUserPayload) {
+    return this.userService.create(payload, files);
   }
   @Get()
   getAll() {

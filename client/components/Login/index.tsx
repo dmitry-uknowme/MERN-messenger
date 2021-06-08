@@ -185,7 +185,11 @@ const Login = ({ serverUsers }) => {
 										{serverUsers.map(({ _id, name, surname, photos }) => (
 											<SwiperSlide key={_id} style={{ cursor: 'pointer', padding: 10 }}>
 												<div className='friendList__slide'>
-													<div className={friendClass(_id)} style={{ backgroundImage: `url(http://localhost:9000/${photos[0]})` }} onClick={() => addFriendHandler(_id)} />
+													<div
+														className={friendClass(_id)}
+														style={{ backgroundImage: `url(http://localhost:9000/${photos?.length ? photos[0] : 'image/no-img.png'})` }}
+														onClick={() => addFriendHandler(_id)}
+													/>
 													{name} <br />
 													{surname}
 												</div>

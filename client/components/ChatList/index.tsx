@@ -45,9 +45,10 @@ const ChatList = () => {
 						userChats.map(({ _id }) => (
 							<Link key={_id} href={`chats/${_id}`}>
 								<div className={styles.chatList__cardLink}>
-									<div className='card messenger__card'>
-										<div className='card-body messenger__card-body'>
-											<h5 className='card-title messenger__card-user'>
+									<div className={`card ${styles.chatList__card}`}>
+										<div className={`card-body ${styles.chatList__card}`}>
+											{/* <div className={styles.friend__cardImg} style={{ backgroundImage: `url(http://localhost:9000/${photos?.length ? photos[0] : 'image/no-img.png'})` }} /> */}
+											<h5 className={`card-title ${styles.chatList__cardUser}`}>
 												{chatName(_id)} <span className={styles.chatList__cardUser_status}>онлайн</span>
 											</h5>
 

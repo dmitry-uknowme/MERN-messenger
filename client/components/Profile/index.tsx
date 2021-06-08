@@ -33,7 +33,7 @@ const Profile = ({ serverProfile }) => {
 									<h2 className='profile__name'>
 										{profile.name} {profile.surname}
 									</h2>
-									<img className={styles.profile__photo} src={`http://localhost:9000/${profile.photos[0]}`} />
+									<img className={styles.profile__photo} src={`http://localhost:9000/${profile.photos?.length ? profile.photos[0] : 'image/no-img.png'}`} />
 									<div className={styles.profile__btn}>{profile._id === userData._id ? 'Сменить фото' : 'Написать сообщение'}</div>
 								</div>
 							</div>
@@ -46,7 +46,7 @@ const Profile = ({ serverProfile }) => {
 												<SwiperSlide key={_id} style={{ cursor: 'pointer', padding: 10, width: `${25}%` }}>
 													<Link href={`/profile/${nickname}`}>
 														<div className='friendList__slide'>
-															<div className={styles.friendList__slideProfile} style={{ backgroundImage: `url(http://localhost:9000/${photos[0]})` }} />
+															<div className={styles.friendList__slideProfile} style={{ backgroundImage: `url(http://localhost:9000/${photos?.length ? photos[0] : 'image/no-img.png'})` }} />
 															{name} <br />
 															{surname}
 														</div>

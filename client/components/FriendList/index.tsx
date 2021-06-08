@@ -12,6 +12,7 @@ import cn from 'classnames';
 import { Tab, Tabs } from '@material-ui/core';
 import socket from '../../utils/socket';
 import axios from 'axios';
+import Modal from '../Modal';
 
 const FriendList = ({ serverAllUsers }) => {
 	const { addUserFriend } = useActions();
@@ -67,9 +68,12 @@ const FriendList = ({ serverAllUsers }) => {
 	useEffect(() => {
 		findUsers();
 	}, [friendInput, tab]);
-
+	toggleModal();
 	return (
 		<section className={`${styles.friendList__section} col-md-8 col-sm-9`}>
+			<Modal>
+				<h1>Modal</h1>
+			</Modal>
 			<div className='friends'>
 				<div className='col-md-12'>
 					<div className='container'>
@@ -89,34 +93,43 @@ const FriendList = ({ serverAllUsers }) => {
 						</div>
 					</div>
 
-					{tab === 'friends'
-						? foundFriends.map(({ _id, name, surname, isOnline }) => (
-								<div className='card friend__card'>
-									{!isFriend(_id) ? <CheckIcon className={styles.friend__cardAdd} /> : <CloseIcon className={styles.friend__cardRemove} />}
+					{tab === 'friends' ? (
+						foundFriends.map(({ _id, name, surname, photos, isOnline }) => (
+							<div className='card friend__card'>
+								{!isFriend(_id) ? <CheckIcon className={styles.friend__cardAdd} /> : <CloseIcon className={styles.friend__cardRemove} />}
+								<Link key={_id} href='/'>
+									<div className={`card-body ${styles.friend__cardBody}`}>
+										<div className={styles.friend__cardImg} style={{ backgroundImage: `url(http://localhost:9000/${photos?.length ? photos[0] : 'image/no-img.png'})` }} />
+										<h5 className={`card-title ${styles.friend__cardUser}`}>
+											{name} {surname} {'  '}
+											<span className={statusClass(isOnline)}>{isOnline ? <div>онлайн</div> : 'оффлайн'}</span>
+										</h5>
+									</div>
+								</Link>
+							</div>
+						))
+					) : tab === 'all' ? (
+						allUsers ? (
+							allUsers.map(({ _id, name, surname, photos, isOnline }) => (
+								<div className='card messenger__card'>
+									{!isFriend(_id) ? <CheckIcon className={styles.friend__cardAdd} onClick={() => addFriend(_id)} /> : <CloseIcon className={styles.friend__cardRemove} />}
 									<Link key={_id} href='/'>
-										<div className='card-body friend__card-body'>
-											<h5 className='card-title friend__card-user'>
-												{name} {surname}
+										<div className={`card-body ${styles.friend__cardBody}`}>
+											<div className={styles.friend__cardImg} style={{ backgroundImage: `url(http://localhost:9000/${photos.length ? photos[0] : 'image/no-img.png'})` }} />
+											<h5 className={`card-title ${styles.friend__cardUser}`}>
+												{name} {surname} {'  '}
 												<span className={statusClass(isOnline)}>{isOnline ? <div>онлайн</div> : 'оффлайн'}</span>
 											</h5>
 										</div>
 									</Link>
 								</div>
-						  ))
-						: tab === 'all'
-						? allUsers.map(({ _id, name, surname, isOnline }) => (
-								<div className='card messenger__card'>
-									{!isFriend(_id) ? <CheckIcon className={styles.friend__cardAdd} onClick={() => addFriend(_id)} /> : <CloseIcon className={styles.friend__cardRemove} />}
-									<Link key={_id} href='/'>
-										<div className='card-body messenger__card-body'>
-											<h5 className='card-title messenger__card-user'>
-												{name} {surname} <span className={statusClass(isOnline)}>{isOnline ? 'онлайн' : 'оффлайн'}</span>
-											</h5>
-										</div>
-									</Link>
-								</div>
-						  ))
-						: ''}
+							))
+						) : (
+							<div>У вас пока нет друзей</div>
+						)
+					) : (
+						''
+					)}
 				</div>
 			</div>
 		</section>

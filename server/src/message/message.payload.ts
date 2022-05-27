@@ -1,6 +1,4 @@
-import { ObjectId } from 'mongoose';
-
 export class CreateMessagePayload {
-  readonly user: ObjectId;
+  readonly user_id: string;
   readonly text: string;
 }

@@ -24,7 +24,7 @@ export class ChatController {
   }
 
   @Get(':id')
-  getOne(@Param('id') id: ObjectId) {
+  getOne(@Param('id') id: string) {
     return this.chatService.getOne(id);
   }
 

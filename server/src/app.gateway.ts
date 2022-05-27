@@ -9,7 +9,7 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { Client } from 'socket.io/dist/client';
-import { Message } from './message/message.schema';
+import { MessageEntity } from './message/message.entity';
 
 @WebSocketGateway()
 export class AppGateway {
@@ -18,12 +18,12 @@ export class AppGateway {
   server: Server;
 
   @SubscribeMessage('MESSAGE:SEND')
-  async onMessageSend(@MessageBody() data: Message): Promise<any> {
+  async onMessageSend(@MessageBody() data: MessageEntity): Promise<any> {
     this.server.emit('MESSAGE:SENT', data);
   }
 
   @SubscribeMessage('POST:SEND')
-  async onPostSend(@MessageBody() data: Message): Promise<any> {
+  async onPostSend(@MessageBody() data: MessageEntity): Promise<any> {
     this.server.emit('POST:SENT', data);
   }
 

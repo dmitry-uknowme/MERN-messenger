@@ -23,17 +23,16 @@ export class AudioController {
       { name: 'sound', maxCount: 1 },
     ]),
   )
-  create(@UploadedFiles() files, @Body() payload: CreateAudioPayload) {
-    return this.audioService.create(files, payload);
-  }
-
+  // create(@UploadedFiles() files, @Body() payload: CreateAudioPayload) {
+  //   return this.audioService.create(files, payload);
+  // }
   @Get()
   getAll() {
     return this.audioService.getAll();
   }
 
-  @Put(':id/:type')
-  update(@Param('id') id: ObjectId, @Param('type') type: string) {
-    return this.audioService.update(id, type);
-  }
+  // @Put(':id/:type')
+  // update(@Param('id') id: ObjectId, @Param('type') type: string) {
+  //   return this.audioService.update(id, type);
+  // }
 }

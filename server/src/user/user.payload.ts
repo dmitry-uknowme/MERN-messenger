@@ -1,12 +1,13 @@
 import { ObjectId } from 'mongoose';
 
 export class CreateUserPayload {
-  readonly name: string;
-  readonly surname: string;
-  readonly image?: string;
-  readonly friends?: string[];
-  readonly nickname?: string;
+  readonly username?: string;
   readonly password?: string;
+  readonly first_name: string;
+  readonly middle_name: string;
+  readonly last_name: string;
+  // readonly image?: string;
+  // readonly friends?: string[];
 }
 
 export class CreateUserChatPayload {

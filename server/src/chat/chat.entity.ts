@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'chats' })
 export class ChatEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;

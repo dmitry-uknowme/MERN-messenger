@@ -10,10 +10,16 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'users' })
 export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
+
+  @Column()
+  username: string;
+
+  @Column()
+  password: string;
 
   @Column()
   first_name: string;
@@ -24,13 +30,7 @@ export class UserEntity extends BaseEntity {
   @Column()
   last_name: string;
 
-  @Column()
-  username: string;
-
-  @OneToMany(
-    () => ChatEntity,
-    (chat) => chat.members.find((member) => member.id).id,
-  )
+  @OneToMany(() => ChatEntity, (chat) => chat.id)
   // @OneToMany(() => ChatEntity, (chat) => chat.members.find(member=>))
   chats: ChatEntity[];
 

@@ -2,7 +2,7 @@ import { ObjectId } from 'mongoose';
 
 export class CreateUserPayload {
   readonly username?: string;
-  readonly password?: string;
+  readonly password: string;
   readonly first_name: string;
   readonly middle_name: string;
   readonly last_name: string;

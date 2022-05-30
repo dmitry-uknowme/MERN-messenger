@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import {
   CreateUserChatPayload,
   CreateUserPayload,
@@ -8,7 +8,7 @@ import { transliterate as tr } from 'transliteration';
 import { FileService, FileType } from 'src/file/file.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { ChatEntity } from 'src/chat/chat.entity';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class UserService {
   ) {}
 
   async create(payload: CreateUserPayload): Promise<UserEntity> {
-    return await this.userRepository.create({ ...payload });
+    return await this.userRepository.create({ ...payload }).save();
   }
   // async create(payload: CreateUserPayload, files): Promise<UserEntity> {
   //   console.log('payload', payload);
@@ -88,7 +88,13 @@ export class UserService {
     return user;
   }
 
-  async getAll() {
+  async findOneWhere(
+    options: FindOptionsWhere<UserEntity>,
+  ): Promise<UserEntity> {
+    return await this.userRepository.findOneBy(options);
+  }
+
+  async findAll() {
     return await this.userRepository.find();
   }
   // async getOne(nickname: string): Promise<UserEntity> {

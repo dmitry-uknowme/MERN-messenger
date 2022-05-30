@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'chat_messages' })
 export class MessageEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;

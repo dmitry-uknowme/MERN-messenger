@@ -43,7 +43,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'posts' })
 export class PostEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;

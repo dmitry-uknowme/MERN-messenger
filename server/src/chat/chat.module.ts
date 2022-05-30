@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ChatController } from './chat.controller';
 import { ChatEntity } from './chat.entity';
@@ -9,6 +8,6 @@ import { ChatService } from './chat.service';
   controllers: [ChatController],
   providers: [ChatService],
   imports: [TypeOrmModule.forFeature([ChatEntity])],
-  exports: [ChatService, MongooseModule],
+  exports: [ChatService],
 })
 export class ChatModule {}

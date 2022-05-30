@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SessionModule } from 'nestjs-session';
 import { UserModule } from './user/user.module';
 // import { ChatModule } from './chat/chat.module';
 // import { MessageModule } from './message/message.module';
@@ -13,8 +14,12 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({}),
+    SessionModule.forRoot({
+      session: { secret: 'secret' },
+    }),
     ServeStaticModule.forRoot({
-      rootPath: path.resolve(__dirname, '../static'),
+      rootPath: path.join(__dirname, '..', 'static'),
+      // rootPath: path.resolve(__dirname, 'static'),
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -31,6 +36,7 @@ import { ConfigModule } from '@nestjs/config';
       autoLoadEntities: true,
     }),
     UserModule,
+    // AuthModule,
     // ChatModule,
     // MessageModule,
     // AudioModule,

@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'chats' })
 export class AudioEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;

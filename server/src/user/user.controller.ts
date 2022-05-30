@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -7,10 +8,12 @@ import {
   Post,
   Put,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ObjectId } from 'mongoose';
+import { SessionGuard } from 'src/guards/session.guard';
 import {
   CreateUserChatPayload,
   CreateUserPayload,
@@ -21,18 +24,20 @@ import { UserService } from './user.service';
 @Controller('/api/users')
 export class UserController {
   constructor(private userService: UserService) {}
+
   @UseInterceptors(FileFieldsInterceptor([{ name: 'image', maxCount: 1 }]))
   @Post()
   create(@Body() payload: CreateUserPayload) {
+    // if (!(payload instanceof CreateUserPayload)) {
+    //   throw new BadRequestException();
+    // }
     return this.userService.create(payload);
   }
-  // @Post()
-  // create(@UploadedFiles() files, @Body() payload: CreateUserPayload) {
-  //   return this.userService.create(payload, files);
-  // }
+
   @Get()
-  getAll() {
-    return this.userService.getAll();
+  @UseGuards(SessionGuard)
+  findAll() {
+    return this.userService.findAll();
   }
   // @Get(':nickname')
   // getOne(@Param('nickname') nickname: string) {

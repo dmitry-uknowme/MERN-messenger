@@ -7,13 +7,15 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { ObjectId } from 'mongoose';
 import { SessionGuard } from 'src/guards/session.guard';
+import { FindManyOptions, FindOptionsWhere } from 'typeorm';
+import { UserEntity } from './user.entity';
 import {
   CreateUserChatPayload,
   CreateUserPayload,
@@ -25,36 +27,38 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @UseInterceptors(FileFieldsInterceptor([{ name: 'image', maxCount: 1 }]))
   @Post()
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'image', maxCount: 1 }]))
   create(@Body() payload: CreateUserPayload) {
-    // if (!(payload instanceof CreateUserPayload)) {
-    //   throw new BadRequestException();
-    // }
     return this.userService.create(payload);
+  }
+
+  @Put('/:id')
+  update(
+    @Param('id') id: string,
+    @Body() payload: FindOptionsWhere<UserEntity>,
+  ) {
+    return this.userService.update(id, payload);
   }
 
   @Get()
   @UseGuards(SessionGuard)
-  findAll() {
-    return this.userService.findAll();
+  findAll(
+    @Query()
+    query: FindOptionsWhere<UserEntity> | FindOptionsWhere<UserEntity>[],
+  ): Promise<UserEntity[]> {
+    return this.userService.findAll(query);
   }
-  // @Get(':nickname')
-  // getOne(@Param('nickname') nickname: string) {
-  //   return this.userService.getOne(nickname);
-  // }
-  // @Put(':nickname/:type')
-  // update(
-  //   @Param('nickname') nickname: string,
-  //   @Param('type') type: string,
-  //   @Body() payload: UpdateUserTypePayload,
-  // ) {
-  //   return this.userService.update(nickname, type, payload);
-  // }
-  // @Delete(':id')
-  // delete(@Param('id') id: ObjectId) {
-  //   return this.userService.delete(id);
-  // }
+
+  @Get('/:id')
+  @UseGuards(SessionGuard)
+  findOneById(@Param('id') id: string, @Query() query) {
+    if (query.column === 'username') {
+      return this.userService.findOne({ username: id });
+    } else if (!query.column) {
+      return this.userService.findOne({ id });
+    }
+  }
 }
 // @Controller('/api/users/:nickname/chats')
 // export class UserChatController {

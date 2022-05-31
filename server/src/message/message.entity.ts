@@ -11,7 +11,7 @@ import {
 
 @Entity({ name: 'chat_messages' })
 export class MessageEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @OneToOne(() => UserEntity)

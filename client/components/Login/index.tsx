@@ -30,19 +30,19 @@ const Login = () => {
     friends: [],
   });
   const router = useRouter();
-  const { fetchUser, setUserOnline } = useActions();
-  const [userInput, setUserInput] = useState("dima-bogatyrev");
-  const [userPassword, setUserPassword] = useState("dima-bogat");
+  const { fetchUser, setUserOnline, loginUser } = useActions();
+  const [userInput, setUserInput] = useState("dmitry");
+  const [userPassword, setUserPassword] = useState("123");
   const userData = useTypedSelector((state) => state.user);
   const [slider, setSlider] = useState(null);
   const { toggleModal, modalStatus } = useModal();
   const [isLastSlide, setIsLastSlide] = useState<boolean>(false);
-  const btnHandler = async () => {
-    await fetchUser(userInput);
-    await setUserOnline(true);
-    // signIn('Nickname Provider', { username: userInput, password: '1234' });
-    await router.push("/chats");
-  };
+  // const btnHandler = async () => {
+  //   // await fetchUser(userInput);
+  //   await setUserOnline(true);
+  //   // signIn('Nickname Provider', { username: userInput, password: '1234' });
+  //   // await router.push("/chats");
+  // };
 
   const nicknameExistModal = () => {
     toggleModal({
@@ -82,40 +82,43 @@ const Login = () => {
     });
   };
 
-  const submitHandler = async () => {
-    console.log(fillReqfieldsModal());
-    if (fillReqfieldsModal()) return false;
-    const { data } = await axios.get(
-      `http://localhost:9000/api/users/${registrationData.nickname}`
-    );
-    // console.log("nikuhwufa", !isEmpty(registrationData.nickname.toString()));
-    if (data === "" && !isEmpty(registrationData.nickname.toString())) {
-      console.log("ник доступен");
-      const { name, surname, password, nickname, friends } = registrationData;
-      const formData = new FormData();
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const { name, surname, password, nickname, friends } = registrationData;
+    loginUser({ username: userInput, password: userPassword }, router);
+    // console.log(fillReqfieldsModal());
+    // if (fillReqfieldsModal()) return false;
+    // const { data } = await axios.get(
+    //   `http://localhost:9000/api/users/${registrationData.nickname}`
+    // );
+    // // console.log("nikuhwufa", !isEmpty(registrationData.nickname.toString()));
+    // if (data === "" && !isEmpty(registrationData.nickname.toString())) {
+    //   console.log("ник доступен");
+    //   const { name, surname, password, nickname, friends } = registrationData;
+    //   const formData = new FormData();
 
-      formData.append("name", name);
-      formData.append("surname", surname);
-      formData.append("nickname", nickname);
-      formData.append("password", password);
-      formData.append("friends", friends);
-      // formData.appenda('image', nickname);
-      console.log("form", formData);
-      const { data } = await axios.post(
-        "http://localhost:9000/api/users",
-        formData
-      );
+    //   formData.append("name", name);
+    //   formData.append("surname", surname);
+    //   formData.append("nickname", nickname);
+    //   formData.append("password", password);
+    //   formData.append("friends", friends);
+    //   // formData.appenda('image', nickname);
+    //   console.log("form", formData);
+    //   const { data } = await axios.post(
+    //     "http://localhost:9000/api/users",
+    //     formData
+    //   );
 
-      toggleModal({
-        title: "Регистрация",
-        body: `Вы успешно зарегистрировались`,
-      });
+    //   toggleModal({
+    //     title: "Регистрация",
+    //     body: `Вы успешно зарегистрировались`,
+    //   });
 
-      console.log(data);
-      // setTimeout(() => router.push(`/profile/${data._id}`), 500);
-    } else {
-      nicknameExistModal();
-    }
+    //   console.log(data);
+    //   // setTimeout(() => router.push(`/profile/${data._id}`), 500);
+    // } else {
+    //   nicknameExistModal();
+    // }
   };
   const friendClass = (id) =>
     cn(styles.friendList__slideProfile, {
@@ -156,207 +159,208 @@ const Login = () => {
     <div className="login__section" style={{ height: `${100}%` }}>
       <div className={styles.login}>
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-4 offset-md-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                Введите никнейм пользователя
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                value={userInput}
-                required
-                onChange={(e) => setUserInput(e.target.value)}
-              />
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                Введите пароль:
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                value={userPassword}
-                required
-                onChange={(e) => setUserPassword(e.target.value)}
-              />
-              <div
-                className="d-flex justify-content-center"
-                style={{ cursor: "pointer" }}
-                onClick={() => setRegistration((state) => !state)}
-              >
-                Еще нет аккаунта? Зарегистрироваться
-              </div>
-              <div className="d-flex justify-content-center mt-3">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onClick={btnHandler}
+          <form onSubmit={submitHandler}>
+            <div className="row">
+              <div className="col-md-4 offset-md-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  Введите никнейм пользователя
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={userInput}
+                  required
+                  onChange={(e) => setUserInput(e.target.value)}
+                />
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  Введите пароль:
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  value={userPassword}
+                  required
+                  onChange={(e) => setUserPassword(e.target.value)}
+                />
+                <div
+                  className="d-flex justify-content-center"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setRegistration((state) => !state)}
                 >
-                  Войти
-                </button>
+                  Еще нет аккаунта? Зарегистрироваться
+                </div>
+                <div className="d-flex justify-content-center mt-3">
+                  <button type="submit" className="btn btn-primary">
+                    Войти
+                  </button>
+                </div>
               </div>
-            </div>
 
-            {registration && (
-              <Swiper
-                navigation
-                pagination={{ type: "fraction" }}
-                style={{ height: 400, marginTop: 90 }}
-                onSwiper={setSlider}
-                onSlideChange={(slider) =>
-                  slider?.slides.length - 1 === slider?.realIndex
-                    ? setIsLastSlide(true)
-                    : setIsLastSlide(false)
-                }
-              >
-                <SwiperSlide>
-                  <label htmlFor="exampleInputEmail1" className="form-label">
-                    Введите ваше имя:
-                  </label>
-                  <input
-                    type="text"
-                    value={registrationData.name}
-                    required
-                    onChange={(e) =>
-                      setRegistrationData((state) => ({
-                        ...state,
-                        name: e.target.value,
-                      }))
-                    }
-                  />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <label htmlFor="exampleInputEmail1" className="form-label">
-                    Введите фамилию:
-                  </label>
-                  <input
-                    type="text"
-                    value={registrationData.surname}
-                    required
-                    onChange={(e) =>
-                      setRegistrationData((state) => ({
-                        ...state,
-                        surname: e.target.value,
-                      }))
-                    }
-                  />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <label htmlFor="exampleInputEmail1" className="form-label">
-                    Придумайте себе никнейм или воспользуйтесь сгенерированным:
-                  </label>
-                  <input
-                    type="text"
-                    value={registrationData.nickname}
-                    required
-                    onChange={(e) =>
-                      setRegistrationData((state) => ({
-                        ...state,
-                        nickname: e.target.value,
-                      }))
-                    }
-                  />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <label htmlFor="exampleInputEmail1" className="form-label">
-                    Придумайте пароль:
-                  </label>
-                  <input
-                    type="text"
-                    value={registrationData.password}
-                    required
-                    onChange={(e) =>
-                      setRegistrationData((state) => ({
-                        ...state,
-                        password: e.target.value,
-                      }))
-                    }
-                  />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <label htmlFor="exampleInputEmail1" className="form-label">
-                    Загрузите фотографию:
-                  </label>
-                  <input
-                    type="file"
-                    value={registrationData.image}
-                    required
-                    onChange={(e) =>
-                      setRegistrationData((state) => ({
-                        ...state,
-                        image: e.target.value,
-                      }))
-                    }
-                  />
-                  <PhotoCameraIcon />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <label
-                    htmlFor="exampleInputEmail1"
-                    className="form-label"
-                    style={{ marginLeft: "auto" }}
-                  >
-                    Добавьте знакомых друзей:
-                  </label>
-                  <Swiper
-                    navigation
-                    slidesPerView={6}
-                    style={{ width: `${60}%` }}
-                  >
-                    {serverUsers.map(({ _id, name, surname, photos }) => (
-                      <SwiperSlide
-                        key={_id}
-                        style={{ cursor: "pointer", padding: 10 }}
-                      >
-                        <div className="friendList__slide">
-                          <div
-                            className={friendClass(_id)}
-                            style={{
-                              backgroundImage: `url(http://localhost:9000/${
-                                photos?.length ? photos[0] : "image/no-img.png"
-                              })`,
-                            }}
-                            onClick={() => addFriendHandler(_id)}
-                          />
-                          {name} <br />
-                          {surname}
-                        </div>
-                      </SwiperSlide>
-                    ))}
-
-                    <button>Добавить</button>
-                  </Swiper>
-                </SwiperSlide>
-                <h2
-                  slot="container-end"
-                  style={{
-                    position: "absolute",
-                    zIndex: 100,
-                    top: `${2}%`,
-                    left: `${50}%`,
-                    transform: "translateX(-50%)",
-                  }}
+              {registration && (
+                <Swiper
+                  navigation
+                  pagination={{ type: "fraction" }}
+                  style={{ height: 400, marginTop: 90 }}
+                  onSwiper={setSlider}
+                  onSlideChange={(slider) =>
+                    slider?.slides.length - 1 === slider?.realIndex
+                      ? setIsLastSlide(true)
+                      : setIsLastSlide(false)
+                  }
                 >
-                  Регистрация
-                </h2>
-                {isLastSlide && (
-                  <button
+                  <SwiperSlide>
+                    <label htmlFor="exampleInputEmail1" className="form-label">
+                      Введите ваше имя:
+                    </label>
+                    <input
+                      type="text"
+                      value={registrationData.name}
+                      required
+                      onChange={(e) =>
+                        setRegistrationData((state) => ({
+                          ...state,
+                          name: e.target.value,
+                        }))
+                      }
+                    />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <label htmlFor="exampleInputEmail1" className="form-label">
+                      Введите фамилию:
+                    </label>
+                    <input
+                      type="text"
+                      value={registrationData.surname}
+                      required
+                      onChange={(e) =>
+                        setRegistrationData((state) => ({
+                          ...state,
+                          surname: e.target.value,
+                        }))
+                      }
+                    />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <label htmlFor="exampleInputEmail1" className="form-label">
+                      Придумайте себе никнейм или воспользуйтесь
+                      сгенерированным:
+                    </label>
+                    <input
+                      type="text"
+                      value={registrationData.nickname}
+                      required
+                      onChange={(e) =>
+                        setRegistrationData((state) => ({
+                          ...state,
+                          nickname: e.target.value,
+                        }))
+                      }
+                    />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <label htmlFor="exampleInputEmail1" className="form-label">
+                      Придумайте пароль:
+                    </label>
+                    <input
+                      type="text"
+                      value={registrationData.password}
+                      required
+                      onChange={(e) =>
+                        setRegistrationData((state) => ({
+                          ...state,
+                          password: e.target.value,
+                        }))
+                      }
+                    />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <label htmlFor="exampleInputEmail1" className="form-label">
+                      Загрузите фотографию:
+                    </label>
+                    <input
+                      type="file"
+                      value={registrationData.image}
+                      required
+                      onChange={(e) =>
+                        setRegistrationData((state) => ({
+                          ...state,
+                          image: e.target.value,
+                        }))
+                      }
+                    />
+                    <PhotoCameraIcon />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <label
+                      htmlFor="exampleInputEmail1"
+                      className="form-label"
+                      style={{ marginLeft: "auto" }}
+                    >
+                      Добавьте знакомых друзей:
+                    </label>
+                    <Swiper
+                      navigation
+                      slidesPerView={6}
+                      style={{ width: `${60}%` }}
+                    >
+                      {serverUsers.map(({ _id, name, surname, photos }) => (
+                        <SwiperSlide
+                          key={_id}
+                          style={{ cursor: "pointer", padding: 10 }}
+                        >
+                          <div className="friendList__slide">
+                            <div
+                              className={friendClass(_id)}
+                              style={{
+                                backgroundImage: `url(http://localhost:9000/${
+                                  photos?.length
+                                    ? photos[0]
+                                    : "image/no-img.png"
+                                })`,
+                              }}
+                              onClick={() => addFriendHandler(_id)}
+                            />
+                            {name} <br />
+                            {surname}
+                          </div>
+                        </SwiperSlide>
+                      ))}
+
+                      <button>Добавить</button>
+                    </Swiper>
+                  </SwiperSlide>
+                  <h2
                     slot="container-end"
-                    className="btn btn-primary"
-                    onClick={submitHandler}
                     style={{
                       position: "absolute",
                       zIndex: 100,
-                      bottom: `${2}%`,
+                      top: `${2}%`,
                       left: `${50}%`,
                       transform: "translateX(-50%)",
                     }}
                   >
-                    Зарегистрироваться
-                  </button>
-                )}
-              </Swiper>
-            )}
-          </div>
+                    Регистрация
+                  </h2>
+                  {isLastSlide && (
+                    <button
+                      slot="container-end"
+                      className="btn btn-primary"
+                      onClick={submitHandler}
+                      style={{
+                        position: "absolute",
+                        zIndex: 100,
+                        bottom: `${2}%`,
+                        left: `${50}%`,
+                        transform: "translateX(-50%)",
+                      }}
+                    >
+                      Зарегистрироваться
+                    </button>
+                  )}
+                </Swiper>
+              )}
+            </div>
+          </form>
         </div>
       </div>
     </div>

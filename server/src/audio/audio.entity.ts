@@ -9,7 +9,7 @@ import {
 
 @Entity({ name: 'chats' })
 export class AudioEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()

@@ -12,7 +12,7 @@ import {
 
 @Entity({ name: 'chats' })
 export class ChatEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()

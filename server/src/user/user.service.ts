@@ -8,7 +8,12 @@ import { transliterate as tr } from 'transliteration';
 import { FileService, FileType } from 'src/file/file.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import {
+  FindManyOptions,
+  FindOptionsWhere,
+  Repository,
+  UpdateResult,
+} from 'typeorm';
 import { ChatEntity } from 'src/chat/chat.entity';
 
 @Injectable()
@@ -16,11 +21,19 @@ export class UserService {
   private logger: Logger = new Logger('UserService');
   constructor(
     @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>, // @InjectRepository(ChatEntity) //private chatRepository: Repository<ChatEntity>, // private fileService: FileService,
+    private userRepository: Repository<UserEntity>,
   ) {}
 
   async create(payload: CreateUserPayload): Promise<UserEntity> {
     return await this.userRepository.create({ ...payload }).save();
+  }
+
+  async update(
+    id: string,
+    payload: FindOptionsWhere<UserEntity>,
+  ): Promise<UpdateResult> {
+    const user = await this.findOne({ id });
+    return await this.userRepository.update(payload, user);
   }
   // async create(payload: CreateUserPayload, files): Promise<UserEntity> {
   //   console.log('payload', payload);
@@ -65,37 +78,14 @@ export class UserService {
   //   return user;
   // }
 
-  async update(nickname: string, type: any, payload: UpdateUserTypePayload) {
-    const user = await this.userRepository.findOneBy({ username: nickname });
-    console.log('payloadd', payload);
-
-    // if (type === 'friends') {
-    //   payload.friends.map((friend) => user.friends.push(friend));
-    // } else if (type === 'online') {
-    //   user.isOnline = !user.isOnline;
-    //   await user.save();
-    //   return user.isOnline;
-    // } else if (type === 'admin') {
-    //   user.isAdmin = !user.isAdmin;
-    //   await user.save();
-    //   return user.isAdmin;
-    // } else if (type === 'audios') {
-    //   payload.audios.map((audio) => user.friends.push(audio));
-    // } else if (type === 'photos') {
-    //   payload.audios.map((audio) => user.friends.push(audio));
-    // }
-    await user.save();
-    return user;
-  }
-
-  async findOneWhere(
-    options: FindOptionsWhere<UserEntity>,
-  ): Promise<UserEntity> {
+  async findOne(options: FindOptionsWhere<UserEntity>): Promise<UserEntity> {
     return await this.userRepository.findOneBy(options);
   }
 
-  async findAll() {
-    return await this.userRepository.find();
+  async findAll(
+    options: FindOptionsWhere<UserEntity> | FindOptionsWhere<UserEntity>[],
+  ): Promise<UserEntity[]> {
+    return await this.userRepository.findBy(options);
   }
   // async getOne(nickname: string): Promise<UserEntity> {
   //   // return await this.userRepository.findOne({ nickname }).populate([

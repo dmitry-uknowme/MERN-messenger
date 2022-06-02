@@ -19,7 +19,9 @@ export const getServerSideProps: GetServerSideProps = async ({
   const { nickname } = params;
   let resultUser = null;
   axios
-    .get(`http://localhost:9000/api/users/${nickname}?column=username`)
+    .get(`http://localhost:9000/api/users/${nickname}?column=username`, {
+      withCredentials: true,
+    })
     .then((response) => {
       console.log("resss", res);
       const data = response.data;

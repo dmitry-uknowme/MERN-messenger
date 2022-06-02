@@ -17,7 +17,20 @@ export const loginUser = (
 ) => {
   return async (dispatch: Dispatch<UserAction>) => {
     axios
-      .post("http://localhost:9000/api/users/login", payload)
+      .post("http://localhost:9000/api/users/login", payload, {
+        // withCredentials: true,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+        // responseType: "json",
+        // timeout: 10000,
+        // // withCredentials: true,
+        // headers: {
+        //   "X-Requested-With": "XMLHttpRequest",
+        //   "Content-Type": "application/json",
+        // },
+      })
       .then((response) => {
         if (response.status === 201) {
           const user = response.data.user as IUser;

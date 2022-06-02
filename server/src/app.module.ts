@@ -1,8 +1,7 @@
 import { Inject, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SessionModule } from 'nestjs-session';
 import { UserModule } from './user/user.module';
-import Redis from 'ioredis';
+// import Redis from 'ioredis';
 // import { ChatModule } from './chat/chat.module';
 // import { MessageModule } from './message/message.module';
 // import { AudioModule } from './audio/audio.module';
@@ -14,13 +13,16 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './modules/database/database.module';
 import session from 'express-session';
 import * as connectRedis from 'connect-redis';
+import { Session } from './middleware/session/session.module';
 
-const RedisStore = connectRedis(session);
+// const RedisStore = connectRedis(session);
 
-export const redis = new Redis(6379, 'localhost');
+// export const redis = new Redis(6379, 'localhost');
 @Module({
   imports: [
     ConfigModule.forRoot({}),
+    Session,
+    // SessionModule.forRoot({}),
     // SessionModule.forRoot({
     //   session: { secret: 'secret', store: new RedisStore({ client: redis }) },
     // }),
@@ -28,7 +30,6 @@ export const redis = new Redis(6379, 'localhost');
     //   rootPath: path.join(__dirname, '..', 'static'),
     //   // rootPath: path.resolve(__dirname, 'static'),
     // }),
-    // DatabaseModule
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -44,6 +45,7 @@ export const redis = new Redis(6379, 'localhost');
       autoLoadEntities: true,
     }),
     UserModule,
+
     // AuthModule,
     // ChatModule,
     // MessageModule,
